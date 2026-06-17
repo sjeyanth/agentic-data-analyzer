@@ -1,0 +1,18 @@
+from app.database.session import SessionLocal
+from app.repositories.report_repository import ReportRepository
+
+
+db = SessionLocal()
+
+repo = ReportRepository()
+
+report = repo.create_report(
+    db=db,
+    insights="Temperature is stable.",
+    recommendations="Continue monitoring."
+)
+
+print(report.id)
+print(report.insights)
+
+db.close()
