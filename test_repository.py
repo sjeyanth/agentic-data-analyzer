@@ -8,6 +8,8 @@ repo = ReportRepository()
 
 report = repo.create_report(
     db=db,
+    summary="Report summary.",
+    anomalies="No significant anomalies found.",
     insights="Temperature is stable.",
     recommendations="Continue monitoring."
 )

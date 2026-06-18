@@ -8,17 +8,23 @@ class ReportRepository:
     def create_report(
         self,
         db: Session,
+        summary: str,
+        anomalies: str,
         insights: str,
         recommendations: str
     ) -> Report:
 
         report = Report(
+            summary=summary,
+            anomalies=anomalies,
             insights=insights,
             recommendations=recommendations
         )
 
         db.add(report)
+
         db.commit()
+
         db.refresh(report)
 
         return report

@@ -13,6 +13,15 @@ class Report(Base):
         index=True
     )
 
+    summary: Mapped[str] = mapped_column(
+        Text
+    )
+
+    anomalies: Mapped[str] = mapped_column(
+        Text,
+        nullable=False
+    )
+
     insights: Mapped[str] = mapped_column(
         Text,
         nullable=False
