@@ -6,9 +6,16 @@ class ReportCreate(BaseModel):
     recommendations: str
 
 
+
 class ReportResponse(BaseModel):
     id: int
+
+    summary: str
+
+    anomalies: str
+
     insights: str
+
     recommendations: str
 
     model_config = {
