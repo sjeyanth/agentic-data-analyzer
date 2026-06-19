@@ -1,11 +1,11 @@
 from langgraph.graph import StateGraph, START, END
 
 from app.agents.state import AnalysisState
-from app.servcies.csv_service import CSVService
-from app.servcies.analysis_service import AnalysisService
-from app.servcies.anomalies_service import AnomalyService
-from app.servcies.insight_service import InsightService
-from app.servcies.recommendation_service import RecommendationService
+from app.services.csv_service import CSVService
+from app.services.analysis_service import AnalysisService
+from app.services.anomalies_service import AnomalyService
+from app.services.insight_service import InsightService
+from app.services.recommendation_service import RecommendationService
 
 
 

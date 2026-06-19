@@ -1,5 +1,5 @@
 from app.database.session import SessionLocal
-from app.servcies.report_service import ReportService
+from app.services.report_service import ReportService
 
 
 db = SessionLocal()

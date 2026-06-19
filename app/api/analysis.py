@@ -6,7 +6,7 @@ from app.schemas.analysis import (
     AnalysisRequest,
     AnalysisResponse
 )
-from app.servcies.report_service import ReportService
+from app.services.report_service import ReportService
 
 
 router = APIRouter(

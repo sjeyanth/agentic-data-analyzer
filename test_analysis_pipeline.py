@@ -1,4 +1,4 @@
-from app.servcies.analysis_pipeline import AnalysisPipeline
+from app.services.analysis_pipeline import AnalysisPipeline
 
 
 pipeline = AnalysisPipeline()

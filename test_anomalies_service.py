@@ -1,5 +1,5 @@
-from app.servcies.csv_service import CSVService
-from app.servcies.anomalies_service import AnomalyService
+from app.services.csv_service import CSVService
+from app.services.anomalies_service import AnomalyService
 
 
 csv_service = CSVService()

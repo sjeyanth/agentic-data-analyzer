@@ -1,6 +1,6 @@
-from app.servcies.csv_service import CSVService
-from app.servcies.anomalies_service import AnomalyService
-from app.servcies.insight_service import InsightService
+from app.services.csv_service import CSVService
+from app.services.anomalies_service import AnomalyService
+from app.services.insight_service import InsightService
 
 
 csv_service = CSVService()

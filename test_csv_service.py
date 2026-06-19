@@ -1,4 +1,4 @@
-from app.servcies.csv_service import CSVService
+from app.services.csv_service import CSVService
 
 service = CSVService()
 

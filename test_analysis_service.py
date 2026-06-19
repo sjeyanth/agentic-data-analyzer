@@ -1,5 +1,5 @@
-from app.servcies.csv_service import CSVService
-from app.servcies.analysis_service import AnalysisService
+from app.services.csv_service import CSVService
+from app.services.analysis_service import AnalysisService
 
 
 csv_service = CSVService()
