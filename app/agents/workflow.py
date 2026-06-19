@@ -5,7 +5,7 @@ from app.services.csv_service import CSVService
 from app.services.analysis_service import AnalysisService
 from app.services.anomalies_service import AnomalyService
 from app.services.insight_service import InsightService
-from app.services.recommendation_service import RecommendationService
+from app.services.gemini_service import GeminiService
 
 
 
@@ -14,7 +14,7 @@ csv_service = CSVService()
 analysis_service = AnalysisService()
 anomaly_service = AnomalyService()
 insight_service = InsightService()
-recommendation_service = RecommendationService()
+gemini_service = GeminiService()
 
 
 def analyze_node(
@@ -65,10 +65,12 @@ def insight_node(
 def recommendation_node(
     state: AnalysisState
 ):
+
     recommendations = (
-        recommendation_service
-        .generate_recommendations(
-            state["anomalies"]
+        gemini_service.generate_recommendations(
+            summary=state["summary"],
+            anomalies=state["anomalies"],
+            insights=state["insights"]
         )
     )
 
