@@ -31,3 +31,13 @@ class Report(Base):
         Text,
         nullable=False
     )
+
+    risk_level: Mapped[str] = mapped_column(
+    String(50),
+    nullable=False
+    )
+
+    executive_summary: Mapped[str] = mapped_column(
+    Text,
+    nullable=False
+    )

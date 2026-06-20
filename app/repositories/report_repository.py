@@ -11,14 +11,19 @@ class ReportRepository:
         summary: str,
         anomalies: str,
         insights: str,
-        recommendations: str
+        recommendations: str,
+        risk_level: str,
+        executive_summary: str
+        
     ) -> Report:
 
         report = Report(
             summary=summary,
             anomalies=anomalies,
             insights=insights,
-            recommendations=recommendations
+            recommendations=recommendations,
+            risk_level=risk_level,
+            executive_summary=executive_summary
         )
 
         db.add(report)

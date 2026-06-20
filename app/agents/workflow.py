@@ -7,6 +7,10 @@ from app.services.anomalies_service import AnomalyService
 from app.services.insight_service import InsightService
 from app.services.gemini_service import GeminiService
 
+from app.agents.maintenance_agent import MaintenanceAgent
+from app.agents.risk_agent import RiskAgent
+from app.agents.report_agent import ReportAgent
+
 
 
 
@@ -14,7 +18,9 @@ csv_service = CSVService()
 analysis_service = AnalysisService()
 anomaly_service = AnomalyService()
 insight_service = InsightService()
-gemini_service = GeminiService()
+maintenance_agent = MaintenanceAgent()
+risk_agent = RiskAgent()
+report_agent = ReportAgent()
 
 
 def analyze_node(
@@ -67,7 +73,7 @@ def recommendation_node(
 ):
 
     recommendations = (
-        gemini_service.generate_recommendations(
+        maintenance_agent.run(
             summary=state["summary"],
             anomalies=state["anomalies"],
             insights=state["insights"]
@@ -77,6 +83,7 @@ def recommendation_node(
     return {
         "recommendations": recommendations
     }
+
 
 
 def should_generate_recommendations(
@@ -93,6 +100,39 @@ def should_generate_recommendations(
         return "generate_recommendations"
 
     return END
+
+
+def risk_node(
+    state: AnalysisState                                      # Risk Node
+): 
+
+    risk_level = (
+        risk_agent.run(
+            anomalies=state["anomalies"],
+            recommendations=state["recommendations"]
+        )
+    )
+
+    return {
+        "risk_level": risk_level
+    }
+
+def report_node(
+    state: AnalysisState
+):
+
+    executive_summary = (
+        report_agent.run(
+            summary=state["summary"],
+            insights=state["insights"],
+            recommendations=state["recommendations"],
+            risk_level=state["risk_level"]
+        )
+    )
+
+    return {
+        "executive_summary": executive_summary
+    }
 
 
 
@@ -120,6 +160,16 @@ graph_builder.add_node(
     recommendation_node
 )
 
+graph_builder.add_node(
+    "assess_risk",
+    risk_node
+)
+
+graph_builder.add_node(
+    "generate_report",
+    report_node
+)
+
 
 
 graph_builder.add_edge(
@@ -142,12 +192,27 @@ graph_builder.add_conditional_edges(
     should_generate_recommendations
 )
 
-
+graph_builder.add_edge(
+    "generate_recommendations",
+    "assess_risk"
+)
 
 graph_builder.add_edge(
     "generate_recommendations",
+    "assess_risk"
+)
+
+graph_builder.add_edge(
+    "assess_risk",
+    "generate_report"
+)
+
+graph_builder.add_edge(
+    "generate_report",
     END
 )
+
+
 
 
 workflow = graph_builder.compile()

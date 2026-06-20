@@ -18,6 +18,10 @@ class ReportResponse(BaseModel):
 
     recommendations: str
 
+    risk_level: str
+
+    executive_summary: str
+
     model_config = {
         "from_attributes": True
     }

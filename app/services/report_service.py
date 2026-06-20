@@ -37,6 +37,12 @@ class ReportService:
             ),
             recommendations=str(
                 workflow_result["recommendations"]
+            ),
+            risk_level=str(
+                workflow_result["risk_level"]
+            ),
+            executive_summary=str(
+                workflow_result["executive_summary"]
             )
         )
 
