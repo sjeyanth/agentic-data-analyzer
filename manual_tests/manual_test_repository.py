@@ -11,7 +11,9 @@ report = repo.create_report(
     summary="Report summary.",
     anomalies="No significant anomalies found.",
     insights="Temperature is stable.",
-    recommendations="Continue monitoring."
+    recommendations="Continue monitoring.",
+    risk_level="Low",
+    executive_summary="The system is operating within normal parameters."
 )
 
 print(report.id)
