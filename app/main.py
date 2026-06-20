@@ -5,9 +5,21 @@ from app.api.report import router as report_router
 
 from app.api.analysis import router as analysis_router
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title=settings.app_name
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
