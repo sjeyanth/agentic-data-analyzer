@@ -1,173 +1,123 @@
 import { useState } from "react";
-import api from "./services/api";
+import "./App.css";
+import { AppHeader } from "./components/AppHeader";
+import { EmptyState } from "./components/EmptyState";
+import { FileUpload } from "./components/FileUpload";
+import { ReportDashboard } from "./components/ReportDashboard";
+import { Sidebar } from "./components/Sidebar";
+import { StatusMessage } from "./components/StatusMessage";
+import { useTheme } from "./hooks/useTheme";
+import { getReport, uploadAnalysis } from "./services/api";
+import type { Report } from "./types/report";
+import { getErrorMessage } from "./utils/errors";
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
   const [file, setFile] = useState<File | null>(null);
+  const [report, setReport] = useState<Report | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const [message, setMessage] = useState("");
+  async function loadReport(id: number) {
+    setIsLoading(true);
+    setError("");
+    setSuccess("");
 
-  const [reportId, setReportId] =
-    useState<number | null>(null);
-
-  const [report, setReport] =
-    useState<any>(null);
-
-  const loadReport = async (
-    id: number
-  ) => {
     try {
-      const response = await api.get(
-        `/reports/${id}`
-      );
-
-      setReport(
-        response.data
-      );
-    } catch (error) {
-      console.error(
-        "Error loading report:",
-        error
-      );
+      const data = await getReport(id);
+      setReport(data);
+      setSuccess(`Report #${data.id} loaded successfully.`);
+      window.setTimeout(() => {
+        document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    } catch (requestError) {
+      setError(getErrorMessage(requestError));
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
-  const handleUpload = async () => {
+  async function handleAnalyze() {
     if (!file) {
-      alert(
-        "Please select a CSV file"
-      );
-
+      setError("Select a CSV file before starting the analysis.");
       return;
     }
 
-    const formData =
-      new FormData();
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setError("Only CSV files can be analyzed.");
+      return;
+    }
 
-    formData.append(
-      "file",
-      file
-    );
+    setIsLoading(true);
+    setUploadProgress(0);
+    setError("");
+    setSuccess("");
 
     try {
-      const response =
-        await api.post(
-          "/analysis/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type":
-                "multipart/form-data",
-            },
-          }
-        );
-
-      const id =
-        response.data.report_id;
-
-      setReportId(id);
-
-      setMessage(
-        `Report ID: ${id}`
-      );
-
-      await loadReport(id);
-
-    } catch (error) {
-
-      console.error(
-        "Upload failed:",
-        error
-      );
-
-      setMessage(
-        "Upload failed"
-      );
+      const upload = await uploadAnalysis(file, setUploadProgress);
+      const data = await getReport(upload.report_id);
+      setReport(data);
+      setSuccess(upload.message);
+      window.setTimeout(() => {
+        document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    } catch (requestError) {
+      setError(getErrorMessage(requestError));
+    } finally {
+      setIsLoading(false);
+      setUploadProgress(0);
     }
-  };
+  }
+
+  function navigateTo(target: string) {
+    document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   return (
-    <div
-      style={{
-        padding: "2rem",
-      }}
-    >
-      <h1>
-        Manufacturing AI Analyzer
-      </h1>
+    <div className="app-shell">
+      <Sidebar hasReport={Boolean(report)} onNavigate={navigateTo} />
 
-      <input
-        type="file"
-        accept=".csv"
-        onChange={(e) => {
-          if (
-            e.target.files
-          ) {
-            setFile(
-              e.target.files[0]
-            );
-          }
-        }}
-      />
+      <div className="app-main">
+        <AppHeader
+          onLookup={loadReport}
+          onToggleTheme={toggleTheme}
+          reportId={report?.id ?? null}
+          theme={theme}
+        />
 
-      <br />
-      <br />
+        <main className="dashboard-content">
+          {(error || success) && (
+            <StatusMessage
+              message={error || success}
+              onDismiss={() => {
+                setError("");
+                setSuccess("");
+              }}
+              tone={error ? "error" : "success"}
+            />
+          )}
 
-      <button
-        onClick={
-          handleUpload
-        }
-      >
-        Analyze
-      </button>
+          <FileUpload
+            file={file}
+            isLoading={isLoading}
+            onAnalyze={handleAnalyze}
+            onFileSelect={(selectedFile) => {
+              setFile(selectedFile);
+              setError("");
+            }}
+            progress={uploadProgress}
+          />
 
-      <br />
-      <br />
+          {report ? <ReportDashboard report={report} /> : <EmptyState />}
+        </main>
 
-      {message && (
-        <p>{message}</p>
-      )}
-
-      {report && (
-        <div
-          style={{
-            marginTop:
-              "2rem",
-          }}
-        >
-          <hr />
-
-          <h2>
-            Report Details
-          </h2>
-
-          <p>
-            <strong>
-              Report ID:
-            </strong>{" "}
-            {reportId}
-          </p>
-
-          <h3>
-            Risk Level
-          </h3>
-
-          <p>
-            {
-              report.risk_level
-            }
-          </p>
-
-          <h3>
-            Executive Summary
-          </h3>
-
-          <p>
-            {
-              report.executive_summary
-            }
-          </p>
-        </div>
-      )}
+        <footer className="app-footer">
+          <span>ForgeAI Manufacturing Intelligence</span>
+          <span>Powered by your production data</span>
+        </footer>
+      </div>
     </div>
   );
 }
