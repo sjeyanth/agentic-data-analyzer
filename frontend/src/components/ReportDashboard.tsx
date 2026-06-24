@@ -5,12 +5,21 @@ import { DatasetSummaryCard } from "./DatasetSummaryCard";
 import { Icon } from "./Icon";
 import { InsightsCard } from "./InsightsCard";
 import { RecommendationsCard } from "./RecommendationsCard";
+import { TemperatureChart } from "./TemperatureChart";
 
 interface ReportDashboardProps {
   report: Report;
+  chartData: ChartPoint[];
 }
 
-export function ReportDashboard({ report }: ReportDashboardProps) {
+interface ChartPoint {
+  machine_id: number;
+  temperature: number;
+  pressure: number;
+  vibration: number;
+}
+
+export function ReportDashboard({ report, chartData }: ReportDashboardProps) {
   const riskTone = getRiskTone(report.risk_level);
 
   return (
@@ -44,6 +53,11 @@ export function ReportDashboard({ report }: ReportDashboardProps) {
         <InsightsCard insights={report.insights} />
         <RecommendationsCard recommendations={report.recommendations} />
       </div>
+
+      <TemperatureChart data={chartData} />
+
+      <p>Chart Points: {chartData.length}</p>
+
     </section>
   );
 }

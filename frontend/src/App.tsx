@@ -7,14 +7,18 @@ import { ReportDashboard } from "./components/ReportDashboard";
 import { Sidebar } from "./components/Sidebar";
 import { StatusMessage } from "./components/StatusMessage";
 import { useTheme } from "./hooks/useTheme";
-import { getReport, uploadAnalysis } from "./services/api";
+import { getReport, uploadAnalysis, getChartData } from "./services/api";
 import type { Report } from "./types/report";
 import { getErrorMessage } from "./utils/errors";
+
 
 function App() {
   const { theme, toggleTheme } = useTheme();
   const [file, setFile] = useState<File | null>(null);
   const [report, setReport] = useState<Report | null>(null);
+
+  const [chartData, setChartData] = useState<any[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
@@ -28,6 +32,40 @@ function App() {
     try {
       const data = await getReport(id);
       setReport(data);
+      
+      
+      const chartResponse =  await getChartData(id);
+
+      const transformedData =
+        chartResponse.machine_id.map(
+      (
+        machineId: number,
+        index: number
+      ) => ({
+        machine_id: machineId,
+
+        temperature:
+          chartResponse.temperature[
+            index
+          ],
+
+        pressure:
+         chartResponse.pressure[
+            index
+          ],
+
+        vibration:
+          chartResponse.vibration[
+            index
+          ]
+      })
+   );
+
+setChartData(
+  transformedData
+);
+      
+      
       setSuccess(`Report #${data.id} loaded successfully.`);
       window.setTimeout(() => {
         document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
@@ -59,6 +97,39 @@ function App() {
       const upload = await uploadAnalysis(file, setUploadProgress);
       const data = await getReport(upload.report_id);
       setReport(data);
+
+      const chartResponse = await getChartData (  upload.report_id );
+
+      const transformedData =
+        chartResponse.machine_id.map(
+      (
+        machineId: number,
+        index: number
+      ) => ({
+        machine_id: machineId,
+
+        temperature:
+          chartResponse.temperature[
+            index
+          ],
+
+        pressure:
+         chartResponse.pressure[
+            index
+          ],
+
+        vibration:
+          chartResponse.vibration[
+            index
+          ]
+      })
+   );
+   
+setChartData(
+  transformedData
+);
+
+
       setSuccess(upload.message);
       window.setTimeout(() => {
         document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
@@ -110,7 +181,10 @@ function App() {
             progress={uploadProgress}
           />
 
-          {report ? <ReportDashboard report={report} /> : <EmptyState />}
+          {report ? <ReportDashboard 
+          report={report}
+          chartData={chartData}
+          /> : <EmptyState />}
         </main>
 
         <footer className="app-footer">

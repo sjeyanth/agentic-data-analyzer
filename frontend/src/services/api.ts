@@ -36,4 +36,15 @@ export async function getReport(id: number): Promise<Report> {
   return data;
 }
 
+export async function getChartData(
+  id: number
+) {
+  const { data } =
+    await api.get(
+      `/reports/${id}/chart-data`
+    );
+
+  return data;
+}
+
 export default api;
