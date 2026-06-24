@@ -13,7 +13,8 @@ class ReportRepository:
         insights: str,
         recommendations: str,
         risk_level: str,
-        executive_summary: str
+        executive_summary: str,
+        csv_file_path: str
         
     ) -> Report:
 
@@ -23,7 +24,8 @@ class ReportRepository:
             insights=insights,
             recommendations=recommendations,
             risk_level=risk_level,
-            executive_summary=executive_summary
+            executive_summary=executive_summary,
+            csv_file_path=csv_file_path
         )
 
         db.add(report)

@@ -41,3 +41,8 @@ class Report(Base):
     Text,
     nullable=False
     )
+
+    csv_file_path: Mapped[str] = mapped_column(
+    Text,
+    nullable=False
+    )

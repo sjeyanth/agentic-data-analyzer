@@ -43,7 +43,8 @@ class ReportService:
             ),
             executive_summary=str(
                 workflow_result["executive_summary"]
-            )
+            ),
+            csv_file_path=file_path
         )
 
         return report
