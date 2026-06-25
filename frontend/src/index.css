@@ -14,6 +14,7 @@
   --text-subtle: #929a97;
   --border: #dde2dc;
   --border-strong: #cbd2cb;
+  --chart-grid: #e5e7eb;
   --primary: #1f9d6a;
   --primary-dark: #16784f;
   --primary-soft: #e7f5ee;
@@ -34,6 +35,7 @@
   --text-subtle: #74807b;
   --border: #2d3934;
   --border-strong: #3b4842;
+  --chart-grid: #2d3934;
   --primary: #4bc38c;
   --primary-dark: #79d6aa;
   --primary-soft: #1d392d;
@@ -61,7 +63,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -70,7 +73,8 @@ button {
 }
 
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
   outline-offset: 2px;
 }
