@@ -173,7 +173,7 @@ setChartData(
           <FileUpload
             file={file}
             isLoading={isLoading}
-            onAnalyze={handleAnalyze}
+            onAnalyze={handleAnalyze} 
             onFileSelect={(selectedFile) => {
               setFile(selectedFile);
               setError("");
