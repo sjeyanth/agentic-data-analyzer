@@ -6,7 +6,7 @@ export interface AnalysisUploadResponse {
 export interface Report {
   id: number;
   summary: string;
-  anomalies: string;
+  anomalies: Record<string, Anomaly[]>;
   insights: string;
   recommendations: string;
   risk_level: string;
@@ -19,6 +19,13 @@ export interface DatasetSummary {
   columns: string[];
 }
 
+
+export interface Anomaly {
+  row_index: number;                 //latest
+  value: number;
+  z_score: number;
+  severity: "LOW" | "MEDIUM" | "HIGH";
+}
 export interface AnomalyCategory {
   category: string;
   values: string[];

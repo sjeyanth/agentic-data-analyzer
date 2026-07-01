@@ -35,9 +35,33 @@ class AnomalyService:
                 abs(z_scores) > threshold
             ]
 
-            anomalies[column] = (
-                anomaly_rows[column]
-                .tolist()
-            )
+            column_anomalies = []
+
+            for index, row in anomaly_rows.iterrows():
+
+                z_score = round(
+                    float(z_scores.loc[index]),
+                    2
+                )
+
+                absolute_z = abs(z_score)
+
+                if absolute_z >= 4:
+                    severity = "HIGH"
+                elif absolute_z >= 3:
+                    severity = "MEDIUM"
+                else:
+                    severity = "LOW"
+
+                column_anomalies.append(
+                    {
+                        "row_index": int(index),
+                        "value": float(row[column]),
+                        "z_score": z_score,
+                        "severity": severity
+                    }
+                )
+
+            anomalies[column] = column_anomalies
 
         return anomalies
