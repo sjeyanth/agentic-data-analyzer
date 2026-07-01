@@ -1,22 +1,22 @@
+from typing import Any
 from pydantic import BaseModel
 
 
 class ReportCreate(BaseModel):
-    insights: str
-    recommendations: str
-
+    insights: list[str]
+    recommendations: list[str]
 
 
 class ReportResponse(BaseModel):
     id: int
 
-    summary: str
+    summary: dict[str, Any]
 
-    anomalies: str
+    anomalies: dict[str, Any]
 
-    insights: str
+    insights: list[str]
 
-    recommendations: str
+    recommendations: list[str]
 
     risk_level: str
 

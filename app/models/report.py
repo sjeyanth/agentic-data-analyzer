@@ -1,6 +1,8 @@
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
+from sqlalchemy.dialects.postgresql import JSONB
+
 from app.database.base import Base
 
 
@@ -13,22 +15,23 @@ class Report(Base):
         index=True
     )
 
-    summary: Mapped[str] = mapped_column(
-        Text
-    )
-
-    anomalies: Mapped[str] = mapped_column(
-        Text,
+    summary: Mapped[dict] = mapped_column(
+         JSONB,
         nullable=False
     )
 
-    insights: Mapped[str] = mapped_column(
-        Text,
+    anomalies: Mapped[dict] = mapped_column(
+        JSONB,
         nullable=False
     )
 
-    recommendations: Mapped[str] = mapped_column(
-        Text,
+    insights: Mapped[list[str]] = mapped_column(
+        JSONB,
+        nullable=False
+    )
+
+    recommendations: Mapped[list[str]] = mapped_column(
+        JSONB,
         nullable=False
     )
 

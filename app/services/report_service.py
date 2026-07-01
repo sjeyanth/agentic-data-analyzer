@@ -26,16 +26,16 @@ class ReportService:
 
         report = self.repo.create_report(
             db=db,
-            summary=str(
+            summary=(
                 workflow_result["summary"]
             ),
-            anomalies=str(
+            anomalies=(
                 workflow_result["anomalies"]
             ),
-            insights=str(
+            insights=(
                 workflow_result["insights"]
             ),
-            recommendations=str(
+            recommendations=(
                 workflow_result["recommendations"]
             ),
             risk_level=str(

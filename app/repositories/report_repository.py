@@ -8,10 +8,10 @@ class ReportRepository:
     def create_report(
         self,
         db: Session,
-        summary: str,
-        anomalies: str,
-        insights: str,
-        recommendations: str,
+        summary: dict,
+        anomalies: dict,
+        insights: list[str],
+        recommendations: list[str],
         risk_level: str,
         executive_summary: str,
         csv_file_path: str

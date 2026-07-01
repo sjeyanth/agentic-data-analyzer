@@ -1,3 +1,5 @@
+import json
+
 import google.generativeai as genai
 
 from app.core.config import settings
@@ -23,10 +25,10 @@ class GeminiService:
           summary: dict,
           anomalies: dict,
           insights: list[str]
-        ) -> str:
+        ) -> list[str]:
             
             prompt = f"""
-            Based on the following analysis, provide actionable recommendations for improving manufacturing processes:
+            Based on the following manufacturing analysis, generate actionable recommendations for plant engineers.
 
             Dataset Summary:
             {summary}
@@ -37,9 +39,17 @@ class GeminiService:
             Insights:
             {insights}
 
-            Generate practical recommendations for plant engineers:
-            
-            Keep recommendations concise.
+            Return ONLY a valid JSON array of strings.
+            Do not include markdown.
+            Do not include explanations.
+            Do not include keys or objects.
+
+            Example:
+            [
+              "Inspect Machine 3 cooling system.",
+              "Verify pressure sensor calibration.",
+              "Monitor vibration levels."
+            ]
             """
 
 
@@ -47,5 +57,37 @@ class GeminiService:
                 prompt
             )
             
-            return response.text
+            return self._parse_recommendations(
+                response.text
+            )
+
+    def _parse_recommendations(
+        self,
+        response_text: str
+    ) -> list[str]:
+        try:
+            cleaned_text = (
+                response_text
+                .strip()
+                .removeprefix("```json")
+                .removeprefix("```")
+                .removesuffix("```")
+                .strip()
+            )
+
+            parsed_response = json.loads(
+                cleaned_text
+            )
+
+            if not isinstance(parsed_response, list):
+                return []
+
+            return [
+                item.strip()
+                for item in parsed_response
+                if isinstance(item, str) and item.strip()
+            ]
+
+        except (json.JSONDecodeError, TypeError):
+            return []
 
