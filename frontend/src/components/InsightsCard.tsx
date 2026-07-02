@@ -1,26 +1,40 @@
-import { parseInsights } from "../utils/report";
 import { ReportCard } from "./ReportCard";
 
 interface InsightsCardProps {
-  insights: string;
+  insights: string[];
 }
 
-export function InsightsCard({ insights }: InsightsCardProps) {
-  const items = parseInsights(insights);
+export function InsightsCard({
+  insights,
+}: InsightsCardProps) {
 
   return (
-    <ReportCard icon="insights" id="insights" title="Operational insights">
-      {items.length > 0 ? (
+    <ReportCard
+      icon="insights"
+      id="insights"
+      title="Operational Insights"
+    >
+      {insights.length > 0 ? (
+
         <ul className="insight-list">
-          {items.map((item, index) => (
-            <li key={`${item}-${index}`}>
+
+          {insights.map((item, index) => (
+
+            <li key={index}>
               <span />
               <p>{item}</p>
             </li>
+
           ))}
+
         </ul>
+
       ) : (
-        <p className="empty-copy">No operational insights were returned.</p>
+
+        <p className="empty-copy">
+          No operational insights were returned.
+        </p>
+
       )}
     </ReportCard>
   );
