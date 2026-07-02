@@ -58,16 +58,27 @@ def get_chart_data(
         report.csv_file_path
     )
 
+    numeric_columns = (
+        dataframe
+        .select_dtypes(
+            include="number"
+        )
+        .columns
+        .tolist()
+    )
+
+    dataframe = (
+        dataframe
+        .astype(object)
+        .where(
+            pd.notna(dataframe),
+            None
+        )
+    )
+
     return {
-        "machine_id":
-            dataframe["machine_id"].tolist(),
-
-        "temperature":
-            dataframe["temperature"].tolist(),
-
-        "pressure":
-            dataframe["pressure"].tolist(),
-
-        "vibration":
-            dataframe["vibration"].tolist()
+        "data": dataframe.to_dict(
+            orient="records"
+        ),
+        "numeric_columns": numeric_columns
     }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AnalysisUploadResponse, Report } from "../types/report";
+import type { ChartResponse } from "../types/chart";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000",
@@ -37,14 +38,16 @@ export async function getReport(id: number): Promise<Report> {
 }
 
 export async function getChartData(
-  id: number
-) {
-  const { data } =
-    await api.get(
-      `/reports/${id}/chart-data`
+    id: number
+): Promise<ChartResponse> {
+
+    const { data } = await api.get<ChartResponse>(
+        `/reports/${id}/chart-data`
     );
 
-  return data;
+    return data;
 }
+
+
 
 export default api;

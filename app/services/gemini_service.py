@@ -28,7 +28,22 @@ class GeminiService:
         ) -> list[str]:
             
             prompt = f"""
-            Based on the following manufacturing analysis, generate actionable recommendations for plant engineers.
+            You are a domain-independent data analysis advisor.
+
+            Analyze the tabular dataset context below and first infer the most likely dataset domain from:
+            - column names
+            - statistical summary
+            - detected anomalies
+            - relationships between fields
+
+            Possible domains include, but are not limited to:
+            manufacturing, healthcare, finance, retail, smart buildings, data centers,
+            logistics, energy, agriculture, education, and transportation.
+
+            If the domain cannot be confidently determined, use generic data-analysis terminology.
+            Do not invent a domain.
+            Never mention manufacturing, production lines, machines, factories, sensors,
+            or industrial equipment unless the dataset clearly represents that domain.
 
             Dataset Summary:
             {summary}
@@ -39,6 +54,14 @@ class GeminiService:
             Insights:
             {insights}
 
+            Generate 3 to 6 actionable recommendations.
+            Recommendations must:
+            - be consistent with the inferred domain
+            - prioritize high-severity anomalies
+            - describe practical next steps
+            - avoid generic statements such as "monitor the data"
+            - avoid repeating anomaly values verbatim
+
             Return ONLY a valid JSON array of strings.
             Do not include markdown.
             Do not include explanations.
@@ -46,9 +69,9 @@ class GeminiService:
 
             Example:
             [
-              "Inspect Machine 3 cooling system.",
-              "Verify pressure sensor calibration.",
-              "Monitor vibration levels."
+              "Investigate the highest-severity outlier in the affected metric.",
+              "Validate whether the abnormal pattern reflects a real operational event.",
+              "Prioritize corrective action for records with repeated or severe deviations."
             ]
             """
 

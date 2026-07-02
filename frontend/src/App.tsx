@@ -34,36 +34,9 @@ function App() {
       setReport(data);
       
       
-      const chartResponse =  await getChartData(id);
+      const chartResponse = await getChartData(id);
 
-      const transformedData =
-        chartResponse.machine_id.map(
-      (
-        machineId: number,
-        index: number
-      ) => ({
-        machine_id: machineId,
-
-        temperature:
-          chartResponse.temperature[
-            index
-          ],
-
-        pressure:
-         chartResponse.pressure[
-            index
-          ],
-
-        vibration:
-          chartResponse.vibration[
-            index
-          ]
-      })
-   );
-
-setChartData(
-  transformedData
-);
+      setChartData(chartResponse.data);
       
       
       setSuccess(`Report #${data.id} loaded successfully.`);
@@ -98,36 +71,10 @@ setChartData(
       const data = await getReport(upload.report_id);
       setReport(data);
 
-      const chartResponse = await getChartData (  upload.report_id );
+      const chartResponse = await getChartData(upload.report_id);
 
-      const transformedData =
-        chartResponse.machine_id.map(
-      (
-        machineId: number,
-        index: number
-      ) => ({
-        machine_id: machineId,
-
-        temperature:
-          chartResponse.temperature[
-            index
-          ],
-
-        pressure:
-         chartResponse.pressure[
-            index
-          ],
-
-        vibration:
-          chartResponse.vibration[
-            index
-          ]
-      })
-   );
-   
-setChartData(
-  transformedData
-);
+      setChartData(chartResponse.data);
+ 
 
 
       setSuccess(upload.message);
