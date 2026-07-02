@@ -48,7 +48,7 @@ export function InteractiveChart({
 
 
     return (
-        <section className="interactive-chart-card">
+        <section className="interactive-chart-card" id="data-visualization">
             <div className="interactive-chart-header">
                 <div>
                     <h3>Interactive Data Visualization</h3>

@@ -237,7 +237,7 @@
 }
 
 .dashboard-content {
-  width: min(1120px, 100%);
+  width: min(1200px, 100%);
   flex: 1;
   margin: 0 auto;
   padding: 34px clamp(24px, 4vw, 58px) 60px;
@@ -526,6 +526,8 @@
 }
 
 .report-dashboard {
+  display: grid;
+  gap: 18px;
   margin-top: 42px;
 }
 
@@ -593,11 +595,12 @@
 .executive-card {
   display: flex;
   gap: 17px;
-  padding: 22px;
+  padding: clamp(22px, 3vw, 30px);
   border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--border));
   border-left: 3px solid var(--primary);
-  border-radius: 11px;
+  border-radius: 12px;
   background: var(--primary-soft);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
   scroll-margin-top: 105px;
 }
 
@@ -624,24 +627,22 @@
 
 .executive-card p {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
-.report-grid {
+.report-stack {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: 18px;
 }
 
 .report-section {
   min-width: 0;
-  padding: 22px;
+  padding: clamp(22px, 3vw, 30px);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  box-shadow: 0 7px 22px rgba(25, 41, 33, 0.035);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
   scroll-margin-top: 105px;
 }
 
@@ -675,7 +676,7 @@
 .section-heading h3 {
   margin: 0;
   font-family: Inter, "Segoe UI", sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: -0.15px;
 }
 
@@ -686,16 +687,16 @@
 
 .metric-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .summary-metric {
   display: grid;
   gap: 5px;
-  padding: 14px;
+  padding: 16px;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 10px;
   background: var(--surface-soft);
 }
 
@@ -710,7 +711,7 @@
 
 .summary-metric strong {
   font-family: Inter, "Segoe UI", sans-serif;
-  font-size: 23px;
+  font-size: 25px;
   line-height: 1;
 }
 
@@ -743,48 +744,168 @@
   white-space: nowrap;
 }
 
+.statistics-table-wrap {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.statistics-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: var(--surface);
+}
+
+.statistics-table th,
+.statistics-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.statistics-table thead th {
+  color: var(--text-subtle);
+  background: var(--surface-soft);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.statistics-table th:first-child,
+.statistics-table td:first-child {
+  text-align: left;
+}
+
+.statistics-table tbody th {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.statistics-table tbody td {
+  color: var(--text-muted);
+}
+
+.statistics-table tbody tr:last-child th,
+.statistics-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 .anomaly-groups {
   display: grid;
-  gap: 15px;
+  gap: 18px;
 }
 
 .anomaly-group {
   display: grid;
-  gap: 8px;
+  gap: 12px;
 }
 
 .anomaly-group + .anomaly-group {
-  padding-top: 14px;
+  padding-top: 18px;
   border-top: 1px solid var(--border);
 }
 
-.anomaly-label {
+.anomaly-group-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.anomaly-label span {
+.anomaly-group-header h4 {
+  margin: 0 0 3px;
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.15px;
+}
+
+.anomaly-group-header p {
+  margin: 0;
+  color: var(--text-subtle);
   font-size: 10px;
   font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
 }
 
-.anomaly-label small {
-  color: var(--text-subtle);
-  font-size: 8px;
+.anomaly-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
-.anomaly-badge {
-  border-color: color-mix(in srgb, var(--amber) 24%, var(--border));
+.anomaly-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-soft);
+}
+
+.severity-badge {
+  width: fit-content;
+  padding: 5px 9px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  line-height: 1;
+}
+
+.severity-low {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+.severity-medium {
   color: var(--amber);
   background: var(--amber-soft);
+}
+
+.severity-high {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.anomaly-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.anomaly-details-grid div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.anomaly-details-grid span {
+  color: var(--text-subtle);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.anomaly-details-grid strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .insight-list,
 .action-list {
   display: grid;
-  gap: 11px;
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -794,17 +915,24 @@
 .action-list li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-soft);
 }
 
 .insight-list li > span {
-  width: 7px;
-  height: 7px;
+  display: grid;
+  width: 24px;
+  height: 24px;
   flex: 0 0 auto;
-  margin-top: 6px;
-  border: 2px solid var(--primary);
+  place-items: center;
   border-radius: 50%;
+  color: var(--primary-dark);
   background: var(--primary-soft);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .insight-list p,
@@ -814,21 +942,21 @@
   margin: 0;
   overflow-wrap: anywhere;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.65;
 }
 
 .action-list li > span {
   display: grid;
-  width: 23px;
-  height: 23px;
+  width: 32px;
+  height: 32px;
   flex: 0 0 auto;
   place-items: center;
-  border-radius: 7px;
+  border-radius: 9px;
   color: var(--primary-dark);
   background: var(--primary-soft);
-  font-size: 9px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
 }
 
 .positive-empty-state {
@@ -856,7 +984,6 @@
 .interactive-chart-card {
   display: grid;
   gap: 22px;
-  margin-top: 16px;
   padding: clamp(20px, 3vw, 28px);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -897,6 +1024,10 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-soft);
 }
 
 .chart-control-field {
@@ -1124,6 +1255,10 @@
   }
 
   .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid {
     grid-template-columns: 1fr;
   }
 

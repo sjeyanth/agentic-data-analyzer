@@ -21,7 +21,7 @@ export function InsightsCard({
           {insights.map((item, index) => (
 
             <li key={index}>
-              <span />
+              <span aria-hidden="true">✓</span>
               <p>{item}</p>
             </li>
 

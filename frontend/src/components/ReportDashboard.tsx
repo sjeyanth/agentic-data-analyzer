@@ -44,16 +44,13 @@ export function ReportDashboard({ report, chartData }: ReportDashboardProps) {
         </div>
       </article>
 
-      <div className="report-grid">
+      <div className="report-stack">
         <DatasetSummaryCard summary={report.summary} />
+        <InteractiveChart data={chartData} />
         <AnomaliesCard anomalies={report.anomalies} />
         <InsightsCard insights={report.insights} />
         <RecommendationsCard recommendations={report.recommendations} />
       </div>
-
-      <InteractiveChart data={chartData} />
-
-      <p>Chart Points: {chartData.length}</p>
 
     </section>
   );

@@ -1,11 +1,12 @@
 import { Icon, type IconName } from "./Icon";
 
-const navigation: Array<{ label: string; icon: IconName; target: string }> = [
-  { label: "Overview", icon: "dashboard", target: "overview" },
-  { label: "Executive summary", icon: "clipboard", target: "executive-summary" },
-  { label: "Anomalies", icon: "alert", target: "anomalies" },
-  { label: "Insights", icon: "insights", target: "insights" },
-  { label: "Recommendations", icon: "recommendation", target: "recommendations" },
+const navigation: Array<{ id: string; label: string; icon: IconName }> = [
+  { id: "overview", label: "Overview", icon: "dashboard" },
+  { id: "executive-summary", label: "Executive Summary", icon: "clipboard" },
+  { id: "data-visualization", label: "Data Visualization", icon: "chart" },
+  { id: "anomalies", label: "Anomalies", icon: "alert" },
+  { id: "insights", label: "Insights", icon: "insights" },
+  { id: "recommendations", label: "Recommendations", icon: "recommendation" },
 ];
 
 interface SidebarProps {
@@ -27,8 +28,8 @@ export function Sidebar({ hasReport, onNavigate }: SidebarProps) {
           <button
             className={`nav-item ${index === 0 ? "active" : ""}`}
             disabled={!hasReport && index > 0}
-            key={item.target}
-            onClick={() => onNavigate(item.target)}
+            key={item.id}
+            onClick={() => onNavigate(item.id)}
             type="button"
           >
             <Icon name={item.icon} size={18} />

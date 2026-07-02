@@ -3,6 +3,7 @@ import type { ReactNode, SVGProps } from "react";
 export type IconName =
   | "alert"
   | "arrow"
+  | "chart"
   | "check"
   | "chevron"
   | "clipboard"
@@ -25,6 +26,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
 const paths: Record<IconName, ReactNode> = {
   alert: <><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.4 2.2 17.5A2 2 0 0 0 3.9 20h16.2a2 2 0 0 0 1.7-2.5L13.7 3.4a2 2 0 0 0-3.4 0Z"/></>,
   arrow: <><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></>,
+  chart: <><path d="M4 19V5"/><path d="M4 19h16"/><rect width="3" height="7" x="8" y="10" rx="1"/><rect width="3" height="11" x="14" y="6" rx="1"/></>,
   check: <path d="m5 12 4 4L19 6"/>,
   chevron: <path d="m9 18 6-6-6-6"/>,
   clipboard: <><rect width="14" height="16" x="5" y="4" rx="2"/><path d="M9 4V2h6v2M9 9h6M9 13h6"/></>,

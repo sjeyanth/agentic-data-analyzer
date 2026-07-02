@@ -7,6 +7,10 @@ interface RecommendationsCardProps {
 export function RecommendationsCard({
   recommendations,
 }: RecommendationsCardProps) {
+  const numberFormatter = new Intl.NumberFormat(undefined, {
+    minimumIntegerDigits: 2,
+  });
+
   return (
     <ReportCard
       icon="recommendation"
@@ -18,7 +22,7 @@ export function RecommendationsCard({
         <ol className="action-list">
           {recommendations.map((action, index) => (
             <li key={index}>
-              <span>{index + 1}</span>
+              <span>{numberFormatter.format(index + 1)}</span>
               <p>{action}</p>
             </li>
           ))}

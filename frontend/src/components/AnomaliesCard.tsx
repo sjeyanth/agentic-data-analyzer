@@ -6,6 +6,14 @@ interface AnomaliesCardProps {
   anomalies: Record<string, Anomaly[]>;
 }
 
+function formatAnomalyValue(value: number): string {
+  return Number.isFinite(value)
+    ? value.toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    })
+    : "—";
+}
+
 export function AnomaliesCard({
   anomalies,
 }: AnomaliesCardProps) {
@@ -33,9 +41,13 @@ export function AnomaliesCard({
               key={category}
             >
 
-              <div className="anomaly-label">
-                <span>{humanizeLabel(category)}</span>
-                <small>{values.length} detected</small>
+              <div className="anomaly-group-header">
+                <div>
+                  <h4>{humanizeLabel(category)}</h4>
+                  <p>
+                    {values.length} {values.length === 1 ? "anomaly" : "anomalies"}
+                  </p>
+                </div>
               </div>
 
               <div className="anomaly-list">
@@ -43,7 +55,7 @@ export function AnomaliesCard({
                 {values.map((anomaly, index) => (
 
                   <div
-                    className="anomaly-item"
+                    className="anomaly-card"
                     key={`${category}-${index}`}
                   >
 
@@ -53,22 +65,22 @@ export function AnomaliesCard({
                       {anomaly.severity}
                     </div>
 
-                    <div className="anomaly-details">
+                    <div className="anomaly-details-grid">
 
-                      <p>
-                        <strong>Value:</strong>{" "}
-                        {anomaly.value}
-                      </p>
+                      <div>
+                        <span>Value</span>
+                        <strong>{formatAnomalyValue(anomaly.value)}</strong>
+                      </div>
 
-                      <p>
-                        <strong>Row:</strong>{" "}
-                        {anomaly.row_index}
-                      </p>
+                      <div>
+                        <span>Row</span>
+                        <strong>{anomaly.row_index}</strong>
+                      </div>
 
-                      <p>
-                        <strong>Z-Score:</strong>{" "}
-                        {anomaly.z_score}
-                      </p>
+                      <div>
+                        <span>Z-Score</span>
+                        <strong>{formatAnomalyValue(anomaly.z_score)}</strong>
+                      </div>
 
                     </div>
 
