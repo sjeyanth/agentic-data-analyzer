@@ -10,6 +10,7 @@ class ReportRepository:
         db: Session,
         summary: dict,
         anomalies: dict,
+        data_quality: dict,
         insights: list[str],
         recommendations: list[str],
         risk_level: str,
@@ -21,6 +22,7 @@ class ReportRepository:
         report = Report(
             summary=summary,
             anomalies=anomalies,
+            data_quality=data_quality,
             insights=insights,
             recommendations=recommendations,
             risk_level=risk_level,

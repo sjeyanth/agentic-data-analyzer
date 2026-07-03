@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 
 class ReportCreate(BaseModel):
+    data_quality: dict[str, Any]
     insights: list[str]
     recommendations: list[str]
 
@@ -13,6 +14,8 @@ class ReportResponse(BaseModel):
     summary: dict[str, Any]
 
     anomalies: dict[str, Any]
+
+    data_quality: dict[str, Any]
 
     insights: list[str]
 

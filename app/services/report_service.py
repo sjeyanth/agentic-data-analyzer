@@ -32,6 +32,9 @@ class ReportService:
             anomalies=(
                 workflow_result["anomalies"]
             ),
+            data_quality=(
+                workflow_result["data_quality"]
+            ),
             insights=(
                 workflow_result["insights"]
             ),

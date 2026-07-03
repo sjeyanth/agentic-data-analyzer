@@ -25,6 +25,11 @@ class Report(Base):
         nullable=False
     )
 
+    data_quality: Mapped[dict] = mapped_column(
+        JSONB,
+        nullable=False
+    )
+
     insights: Mapped[list[str]] = mapped_column(
         JSONB,
         nullable=False
