@@ -7,6 +7,7 @@ from app.services.anomalies_service import AnomalyService
 from app.services.insight_service import InsightService
 from app.services.gemini_service import GeminiService
 
+from app.agents.data_quality_agent import DataQualityAgent
 from app.agents.maintenance_agent import MaintenanceAgent
 from app.agents.risk_agent import RiskAgent
 from app.agents.report_agent import ReportAgent
@@ -18,17 +19,36 @@ csv_service = CSVService()
 analysis_service = AnalysisService()
 anomaly_service = AnomalyService()
 insight_service = InsightService()
+data_quality_agent = DataQualityAgent()
 maintenance_agent = MaintenanceAgent()
 risk_agent = RiskAgent()
 report_agent = ReportAgent()
 
 
-def analyze_node(
+def load_csv_node(
     state: AnalysisState
 ):
     dataframe = csv_service.load_csv(
         state["file_path"]
     )
+
+    return {
+        "dataframe": dataframe
+    }
+
+
+def data_quality_node(
+    state: AnalysisState
+):
+    return data_quality_agent.run(
+        state
+    )
+
+
+def analyze_node(
+    state: AnalysisState
+):
+    dataframe = state["dataframe"]
 
     summary = analysis_service.generate_summary(
         dataframe
@@ -41,9 +61,7 @@ def analyze_node(
 def anomaly_node(
     state: AnalysisState
 ):
-    dataframe = csv_service.load_csv(
-        state["file_path"]
-    )
+    dataframe = state["dataframe"]
 
     anomalies = anomaly_service.detect_anomalies(
         dataframe
@@ -141,6 +159,16 @@ graph_builder = StateGraph(
 )
 
 graph_builder.add_node(
+    "load_csv",
+    load_csv_node
+)
+
+graph_builder.add_node(
+    "check_data_quality",
+    data_quality_node
+)
+
+graph_builder.add_node(
     "analyze",
     analyze_node
 )
@@ -174,6 +202,16 @@ graph_builder.add_node(
 
 graph_builder.add_edge(
     START,
+    "load_csv"
+)
+
+graph_builder.add_edge(
+    "load_csv",
+    "check_data_quality"
+)
+
+graph_builder.add_edge(
+    "check_data_quality",
     "analyze"
 )
 
