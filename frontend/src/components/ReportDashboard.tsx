@@ -1,6 +1,7 @@
 import type { Report } from "../types/report";
 import { getRiskTone, normalizeRiskLevel } from "../utils/report";
 import { AnomaliesCard } from "./AnomaliesCard";
+import { DataQualityCard } from "./DataQualityCard";
 import { DatasetSummaryCard } from "./DatasetSummaryCard";
 import { Icon } from "./Icon";
 import { InsightsCard } from "./InsightsCard";
@@ -46,6 +47,7 @@ export function ReportDashboard({ report, chartData }: ReportDashboardProps) {
 
       <div className="report-stack">
         <DatasetSummaryCard summary={report.summary} />
+        <DataQualityCard dataQuality={report.data_quality} />
         <InteractiveChart data={chartData} />
         <AnomaliesCard anomalies={report.anomalies} />
         <InsightsCard insights={report.insights} />

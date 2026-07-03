@@ -28,10 +28,27 @@ export interface Anomaly {
   severity: "LOW" | "MEDIUM" | "HIGH";
 }
 
+export type DataQualityStatus = "GOOD" | "WARNING" | "CRITICAL";
+
+export interface DataQuality {
+  overall_status: DataQualityStatus;
+  dataset: {
+    rows: number;
+    columns: number;
+  };
+  missing_values: Record<string, number>;
+  duplicate_rows: number;
+  empty_columns: string[];
+  constant_columns: string[];
+  data_types: Record<string, string>;
+  warnings: string[];
+}
+
 export interface Report {
   id: number;
   summary: DatasetSummary;
   anomalies: Record<string, Anomaly[]>;
+  data_quality: DataQuality;
   insights: string[];
   recommendations: string[];
   risk_level: string;
