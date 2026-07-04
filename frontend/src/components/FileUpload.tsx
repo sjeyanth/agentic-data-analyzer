@@ -32,10 +32,10 @@ export function FileUpload({
   return (
     <section className="upload-card" id="overview">
       <div className="upload-copy">
-        <span className="section-kicker">New analysis</span>
-        <h2>Turn production data into decisions.</h2>
+        <span className="section-kicker"></span>
+        <h2>Hello, Welcome !</h2>
         <p>
-          Upload a manufacturing CSV. The AI workflow will inspect it for
+          Upload a CSV. The AI workflow will inspect it for
           anomalies, operational risks, and recommended actions.
         </p>
 
@@ -109,7 +109,7 @@ export function FileUpload({
           </>
         ) : (
           <>
-            Analyze production data
+            Analyze data
             <Icon name="arrow" size={18} />
           </>
         )}

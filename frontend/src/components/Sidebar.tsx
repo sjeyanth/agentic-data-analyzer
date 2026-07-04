@@ -19,7 +19,7 @@ export function Sidebar({ hasReport, onNavigate }: SidebarProps) {
     <aside className="sidebar">
       <div className="brand">
         <span className="brand-mark"><Icon name="logo" size={22} /></span>
-        <span>Forge<span>AI</span></span>
+        <span> DATA<span> AI</span></span>
       </div>
 
       <nav aria-label="Dashboard sections" className="sidebar-nav">
@@ -39,14 +39,7 @@ export function Sidebar({ hasReport, onNavigate }: SidebarProps) {
       </nav>
 
       <div className="sidebar-footer">
-        <div className="system-status">
-          <span className="status-dot" />
-          <div>
-            <strong>API configured</strong>
-            <span>Manufacturing analysis</span>
-          </div>
         </div>
-      </div>
     </aside>
   );
 }

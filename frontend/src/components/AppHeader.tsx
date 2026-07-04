@@ -28,8 +28,8 @@ export function AppHeader({
   return (
     <header className="app-header">
       <div>
-        <p className="eyebrow">Manufacturing intelligence</p>
-        <h1>Operations analysis</h1>
+        <p className="eyebrow"></p>
+        <h1> Data Analysis</h1>
       </div>
 
       <div className="header-actions">
@@ -41,7 +41,7 @@ export function AppHeader({
             key={reportId ?? "empty"}
             min="1"
             name="reportId"
-            placeholder="Report ID"
+            placeholder=" Report ID"
             type="number"
           />
           <button aria-label="Load report" type="submit">

@@ -135,8 +135,7 @@ function App() {
         </main>
 
         <footer className="app-footer">
-          <span>ForgeAI Manufacturing Intelligence</span>
-          <span>Powered by your production data</span>
+          
         </footer>
       </div>
     </div>
