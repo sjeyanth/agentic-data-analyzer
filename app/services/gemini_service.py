@@ -20,6 +20,72 @@ class GeminiService:
             "gemini-2.5-flash"
         )
 
+    def generate_insights(
+          self,
+          data_quality: dict,
+          summary: dict,
+          anomalies: dict,
+          risk_level: str | None = None
+        ) -> list[str]:
+
+            prompt = f"""
+            You are an AI Data Analyst.
+
+            You will receive structured outputs from previous dataset analysis agents.
+            Use only the information provided below.
+            Do not invent values, columns, causes, or domain details that are not supported.
+            Do not assume the dataset is manufacturing data.
+            Work for any tabular dataset from any domain.
+
+            Dataset Quality Report:
+            {data_quality}
+
+            Dataset Summary:
+            {summary}
+
+            Detected Anomalies:
+            {anomalies}
+
+            Risk Level:
+            {risk_level or "Not available"}
+
+            Generate concise operational insights that explain:
+            - important trends
+            - relationships between anomaly categories
+            - anomaly concentration or distribution
+            - confidence based on dataset quality
+            - severity interpretation
+            - potential causes only when supported by the provided data
+
+            Rules:
+            - Return a maximum of 6 insights.
+            - Each insight must be 1 to 2 sentences.
+            - Explain what the anomalies mean and why they matter.
+            - Do NOT recommend actions.
+            - Do NOT use phrases such as "should", "recommend", "inspect", "check", or "monitor".
+            - Do NOT mention unavailable columns.
+            - Do NOT return markdown.
+            - Do NOT return a numbered list.
+            - Do NOT include explanations outside the JSON.
+
+            Return ONLY a valid JSON array of strings.
+
+            Example:
+            [
+              "High-severity anomalies are concentrated in a small subset of records, indicating that the issue is localized rather than widespread.",
+              "The data quality report shows no major quality issues, increasing confidence that the detected anomalies reflect real patterns.",
+              "Multiple affected metrics contain anomalies, suggesting the dataset includes related deviations rather than isolated noise."
+            ]
+            """
+
+            response = self.model.generate_content(
+                prompt
+            )
+
+            return self._parse_string_list(
+                response.text
+            )
+
     def generate_recommendations(
           self,
           summary: dict,
@@ -80,13 +146,13 @@ class GeminiService:
                 prompt
             )
             
-            return self._parse_recommendations(
+            return self._parse_string_list(
                 response.text
             )
 
-    def _parse_recommendations(
+    def _parse_string_list(
         self,
-        response_text: str
+        response_text: str | None
     ) -> list[str]:
         try:
             cleaned_text = (
@@ -111,6 +177,6 @@ class GeminiService:
                 if isinstance(item, str) and item.strip()
             ]
 
-        except (json.JSONDecodeError, TypeError):
+        except (json.JSONDecodeError, TypeError, AttributeError):
             return []
 

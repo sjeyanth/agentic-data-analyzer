@@ -4,10 +4,9 @@ from app.agents.state import AnalysisState
 from app.services.csv_service import CSVService
 from app.services.analysis_service import AnalysisService
 from app.services.anomalies_service import AnomalyService
-from app.services.insight_service import InsightService
-from app.services.gemini_service import GeminiService
 
 from app.agents.data_quality_agent import DataQualityAgent
+from app.agents.insights_agent import InsightsAgent
 from app.agents.maintenance_agent import MaintenanceAgent
 from app.agents.risk_agent import RiskAgent
 from app.agents.report_agent import ReportAgent
@@ -18,8 +17,8 @@ from app.agents.report_agent import ReportAgent
 csv_service = CSVService()
 analysis_service = AnalysisService()
 anomaly_service = AnomalyService()
-insight_service = InsightService()
 data_quality_agent = DataQualityAgent()
+insights_agent = InsightsAgent()
 maintenance_agent = MaintenanceAgent()
 risk_agent = RiskAgent()
 report_agent = ReportAgent()
@@ -76,13 +75,9 @@ def anomaly_node(
 def insight_node(
     state: AnalysisState
 ):
-    insights = insight_service.generate_insights(
-        state["anomalies"]
+    return insights_agent.run(
+        state
     )
-
-    return {
-        "insights": insights
-    }
 
 
 
