@@ -51,8 +51,8 @@ export function InteractiveChart({
         <section className="interactive-chart-card" id="data-visualization">
             <div className="interactive-chart-header">
                 <div>
-                    <h3>Interactive Data Visualization</h3>
-                    <p>Explore manufacturing data using interactive charts.</p>
+                    <h3> Data Visualization</h3>
+                    <p>Explore manufacturing data using  charts.</p>
                 </div>
             </div>
 
