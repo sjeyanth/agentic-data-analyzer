@@ -1,38 +1,43 @@
-# Agentic Manufacturing Intelligence Platform
+# Agentic Data Analyser Platform
 
 ## Overview
 
-The Agentic Manufacturing Intelligence Platform analyzes manufacturing CSV data through a multi-agent LangGraph workflow. It detects anomalies, evaluates operational risk, generates maintenance recommendations, creates executive summaries, and stores completed reports in PostgreSQL for display in an interactive dashboard.
+The Data Analyser Platform analyzes structured CSV datasets through a multi-agent LangGraph workflow. It validates data quality, generates dataset summaries, detects anomalies, produces AI-powered insights and recommendations, creates executive summaries, and stores structured reports in PostgreSQL JSONB for display in an interactive dashboard.
+
+Although originally designed for manufacturing analytics, the platform now supports generic tabular datasets across domains such as manufacturing, server monitoring, finance, retail, IoT, healthcare, and logistics.
 
 ## Features
 
-- CSV file upload and validation
+- CSV file upload and dataset validation
+- Data Quality Agent for missing values, duplicate rows, empty columns, constant columns, and dataset health status (`GOOD`, `WARNING`, `CRITICAL`)
 - Automated statistical data analysis
-- Manufacturing anomaly detection
+- Domain-independent anomaly detection
+- AI-generated operational insights
 - AI-assisted operational risk assessment
-- Actionable maintenance recommendations
+- Actionable recommendations
 - Executive summary generation
 - LangGraph-based multi-agent orchestration
-- PostgreSQL report persistence
+- PostgreSQL JSONB storage for structured data quality, summary, anomaly, insight, and recommendation outputs
+- Interactive charts that automatically visualize uploaded datasets
 - Responsive React dashboard with light and dark themes
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    A[CSV Upload] --> B[React Dashboard]
-    B --> C[FastAPI]
-    C --> D[LangGraph Workflow]
-    D --> E[Analysis Agent]
-    E --> F[Risk Agent]
-    F --> G[Maintenance Agent]
-    G --> H[Report Writer Agent]
-    H --> I[Gemini AI]
-    I --> J[(PostgreSQL)]
-    J --> K[Report Dashboard]
+    A[CSV Upload] --> B[Data Quality Agent]
+    B --> C[Summary Agent]
+    C --> D[Anomaly Detection Agent]
+    D --> E[Insights Agent]
+    E --> F[Recommendation Agent]
+    F --> G[Executive Summary Agent]
+    G --> H[(PostgreSQL JSONB)]
+    H --> I[Frontend Dashboard]
 ```
 
-The React dashboard sends uploaded CSV data to FastAPI, which runs the LangGraph agent workflow. Gemini AI supports the analysis and report generation process, completed reports are stored in PostgreSQL, and the results are presented in the report dashboard.
+The React dashboard sends uploaded CSV data to FastAPI, which runs the LangGraph workflow through specialized agents. Deterministic agents handle data quality, summaries, and anomaly detection, while Gemini-powered agents generate insights, recommendations, and executive summaries. Structured outputs are stored in PostgreSQL JSONB so reports remain queryable and easy to render in the dashboard.
+
+The dashboard presents each report in a focused sequence: Executive Summary, Dataset Summary, Data Quality, Interactive Data Visualization, Detected Anomalies, Operational Insights, and Recommended Actions.
 
 ## Tech Stack
 
@@ -134,15 +139,20 @@ The frontend runs at `http://localhost:5173` and the API runs at `http://127.0.0
 | `POST` | `/analysis/upload` | Upload a CSV file and generate a report |
 | `POST` | `/analysis/` | Generate a report from a server-side file path |
 | `GET` | `/reports/{id}` | Retrieve a stored analysis report |
+| `GET` | `/reports/{id}/chart-data` | Retrieve generic chart data for the uploaded CSV |
 
 The upload endpoint accepts `multipart/form-data` with a file field named `file`.
+
+Stored reports include structured JSONB fields for `data_quality`, `summary`, `anomalies`, `insights`, and `recommendations`.
 
 ## Future Improvements
 
 - Background processing for long-running analyses
+- AI chat with generated reports
+- Predictive analytics and root cause analysis
 - Authentication and role-based access control
 - Report history, search, and filtering
 - Configurable anomaly detection strategies
 - Real-time analysis progress updates
-- Automated test coverage for the frontend
+- Unit and integration testing
 - Containerized deployment and CI/CD
