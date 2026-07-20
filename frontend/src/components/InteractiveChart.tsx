@@ -215,6 +215,7 @@ export function InteractiveChart({
     }, [chartData, totalRows, visibleStart, visibleEnd]);
 
     const [chartType, setChartType] = useState<ChartType>("line");
+    const [activeVisibleThumb, setActiveVisibleThumb] = useState<"start" | "end" | null>(null);
 
 
     const selectedXAxis = getNextAvailableColumn(
@@ -368,6 +369,14 @@ export function InteractiveChart({
     const visibleRangeTrackStyle = totalRows > 0 ? {
         background: `linear-gradient(90deg, var(--border) 0%, var(--border) ${((visibleStart - 1) / totalRows) * 100}%, var(--primary) ${((visibleStart - 1) / totalRows) * 100}%, var(--primary) ${(visibleEnd / totalRows) * 100}%, var(--border) ${(visibleEnd / totalRows) * 100}%, var(--border) 100%)`,
     } : undefined;
+
+    function setVisibleThumbActive(thumb: "start" | "end") {
+        setActiveVisibleThumb(thumb);
+    }
+
+    function clearVisibleThumbActive() {
+        setActiveVisibleThumb(null);
+    }
 
 
     return (
@@ -687,12 +696,15 @@ export function InteractiveChart({
                     <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
 
                     <input
-                        className="visible-rows-slider-input visible-rows-slider-start"
+                        className={`visible-rows-slider-input ${activeVisibleThumb === "start" ? "visible-rows-slider-start active" : "visible-rows-slider-start"}`}
                         type="range"
                         min={totalRows > 0 ? 1 : 0}
                         max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
                         step={1}
                         value={visibleStart}
+                        onPointerDown={() => setVisibleThumbActive("start")}
+                        onFocus={() => setVisibleThumbActive("start")}
+                        onBlur={clearVisibleThumbActive}
                         onChange={(event) =>
                             handleVisibleStartChange(event.target.valueAsNumber)
                         }
@@ -700,12 +712,15 @@ export function InteractiveChart({
                     />
 
                     <input
-                        className="visible-rows-slider-input visible-rows-slider-end"
+                        className={`visible-rows-slider-input ${activeVisibleThumb === "end" ? "visible-rows-slider-end active" : "visible-rows-slider-end"}`}
                         type="range"
                         min={totalRows > 0 ? Math.min(2, totalRows) : 0}
                         max={totalRows}
                         step={1}
                         value={visibleEnd}
+                        onPointerDown={() => setVisibleThumbActive("end")}
+                        onFocus={() => setVisibleThumbActive("end")}
+                        onBlur={clearVisibleThumbActive}
                         onChange={(event) =>
                             handleVisibleEndChange(event.target.valueAsNumber)
                         }

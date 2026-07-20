@@ -1210,6 +1210,7 @@
   margin: 0;
   background: transparent;
   appearance: none;
+  pointer-events: none;
 }
 
 .visible-rows-slider-input:focus {
@@ -1236,6 +1237,7 @@
   box-shadow: 0 0 0 1px var(--border), 0 4px 12px rgba(17, 24, 39, 0.18);
   cursor: pointer;
   appearance: none;
+  pointer-events: auto;
 }
 
 .visible-rows-slider-input::-moz-range-thumb {
@@ -1246,6 +1248,7 @@
   background: var(--primary);
   box-shadow: 0 0 0 1px var(--border), 0 4px 12px rgba(17, 24, 39, 0.18);
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .visible-rows-slider-input:disabled {
@@ -1257,7 +1260,12 @@
 }
 
 .visible-rows-slider-end {
-  z-index: 3;
+  z-index: 2;
+}
+
+.visible-rows-slider-start.active,
+.visible-rows-slider-end.active {
+  z-index: 4;
 }
 
 .chart-visualization {
