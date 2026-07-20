@@ -122,6 +122,42 @@ function getNextAvailableColumn(
     return columns.find((column) => column !== excludedColumn) ?? "";
 }
 
+function clampRowValue(
+    value: number,
+    minimum: number,
+    maximum: number
+): number {
+    return Math.min(
+        Math.max(Math.trunc(value), minimum),
+        maximum
+    );
+}
+
+function coerceRowInputValue(
+    value: number,
+    fallback: number
+): number {
+    return Number.isFinite(value) ? value : fallback;
+}
+
+function getInitialVisibleRange(totalRows: number) {
+    if (totalRows <= 0) {
+        return { start: 0, end: 0 };
+    }
+
+    if (totalRows === 1) {
+        return { start: 1, end: 1 };
+    }
+
+    return { start: 1, end: totalRows };
+}
+
+interface VisibleRowRangeState {
+    totalRows: number;
+    start: number;
+    end: number;
+}
+
 export function InteractiveChart({
     data,
 }: InteractiveChartProps) {
@@ -145,6 +181,38 @@ export function InteractiveChart({
     const [selectedXAxisPreference, setSelectedXAxisPreference] = useState("");
 
     const [selectedYAxisPreference, setSelectedYAxisPreference] = useState("");
+    const [visibleRangeState, setVisibleRangeState] = useState<VisibleRowRangeState>(() => {
+        const initialVisibleRange = getInitialVisibleRange(chartData.length);
+
+        return {
+            totalRows: chartData.length,
+            start: initialVisibleRange.start,
+            end: initialVisibleRange.end,
+        };
+    });
+
+
+    const totalRows = chartData.length;
+
+    const visibleRange = visibleRangeState.totalRows === totalRows
+        ? visibleRangeState
+        : {
+            totalRows,
+            ...getInitialVisibleRange(totalRows),
+        };
+    const visibleStart = visibleRange.start;
+    const visibleEnd = visibleRange.end;
+
+    const visibleChartData = useMemo(() => {
+        if (totalRows <= 0) {
+            return [];
+        }
+
+        return chartData.slice(
+            visibleStart - 1,
+            visibleEnd
+        );
+    }, [chartData, totalRows, visibleStart, visibleEnd]);
 
     const [chartType, setChartType] = useState<ChartType>("line");
 
@@ -221,6 +289,85 @@ export function InteractiveChart({
             );
         }
     }
+
+    function handleVisibleStartChange(
+        value: number
+    ) {
+        const nextValue = coerceRowInputValue(
+            value,
+            visibleStart
+        );
+
+        if (totalRows <= 0) {
+            return;
+        }
+
+        if (totalRows === 1) {
+            setVisibleRangeState({
+                totalRows,
+                start: 1,
+                end: 1,
+            });
+            return;
+        }
+
+        const nextStart = clampRowValue(
+            nextValue,
+            1,
+            totalRows - 1
+        );
+
+        setVisibleRangeState({
+            totalRows,
+            start: Math.min(
+                nextStart,
+                visibleEnd - 1
+            ),
+            end: visibleEnd,
+        });
+    }
+
+    function handleVisibleEndChange(
+        value: number
+    ) {
+        const nextValue = coerceRowInputValue(
+            value,
+            visibleEnd
+        );
+
+        if (totalRows <= 0) {
+            return;
+        }
+
+        if (totalRows === 1) {
+            setVisibleRangeState({
+                totalRows,
+                start: 1,
+                end: 1,
+            });
+            return;
+        }
+
+        const nextEnd = clampRowValue(
+            nextValue,
+            2,
+            totalRows
+        );
+
+        setVisibleRangeState({
+            totalRows,
+            start: visibleStart,
+            end: Math.max(
+                nextEnd,
+                visibleStart + 1
+            ),
+        });
+    }
+
+    const visibleRowCount = visibleChartData.length;
+    const visibleRangeTrackStyle = totalRows > 0 ? {
+        background: `linear-gradient(90deg, var(--border) 0%, var(--border) ${((visibleStart - 1) / totalRows) * 100}%, var(--primary) ${((visibleStart - 1) / totalRows) * 100}%, var(--primary) ${(visibleEnd / totalRows) * 100}%, var(--border) ${(visibleEnd / totalRows) * 100}%, var(--border) 100%)`,
+    } : undefined;
 
 
     return (
@@ -310,7 +457,7 @@ export function InteractiveChart({
                     <ResponsiveContainer>
                         {chartType === "line" && (
                             <LineChart
-                                data={chartData}
+                                data={visibleChartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -359,7 +506,7 @@ export function InteractiveChart({
 
                         {chartType === "bar" && (
                             <BarChart
-                                data={chartData}
+                                data={visibleChartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -442,7 +589,7 @@ export function InteractiveChart({
                                 />
 
                                 <Scatter
-                                    data={data}
+                                    data={visibleChartData}
                                     dataKey={selectedYAxis}
                                     fill="var(--primary)"
                                     animationDuration={150}
@@ -483,14 +630,89 @@ export function InteractiveChart({
                 )}
             </div>
 
-            <div className="interactive-chart-divider" />
-
             <footer className="chart-summary-footer">
-                <span>{data.length} data points</span>
+                <span>{visibleChartData.length} data points</span>
                 <span>{visualizationLabel} visualization</span>
                 <span>X axis: {selectedXAxis}</span>
                 <span>Y axis: {selectedYAxis}</span>
             </footer>
+
+            <section className="visible-rows-panel" aria-label="Visible rows">
+                <div className="visible-rows-header">
+                    <div>
+                        <h4>Visible Rows</h4>
+                        <p>Filter the dataset .</p>
+                    </div>
+
+                    <div className="visible-rows-status" aria-live="polite">
+                        Showing {visibleRowCount} of {totalRows} rows
+                    </div>
+                </div>
+
+                <div className="visible-rows-grid">
+                    <label className="chart-control-field visible-rows-field">
+                        <span>Start</span>
+
+                        <input
+                            type="number"
+                            min={totalRows > 0 ? 1 : 0}
+                            max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                            step={1}
+                            value={visibleStart}
+                            onChange={(event) =>
+                                handleVisibleStartChange(event.target.valueAsNumber)
+                            }
+                            disabled={totalRows === 0}
+                        />
+                    </label>
+
+                    <label className="chart-control-field visible-rows-field">
+                        <span>End</span>
+
+                        <input
+                            type="number"
+                            min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                            max={totalRows}
+                            step={1}
+                            value={visibleEnd}
+                            onChange={(event) =>
+                                handleVisibleEndChange(event.target.valueAsNumber)
+                            }
+                            disabled={totalRows === 0}
+                        />
+                    </label>
+                </div>
+
+                <div className="visible-rows-slider" aria-label="Visible rows range selector">
+                    <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
+
+                    <input
+                        className="visible-rows-slider-input visible-rows-slider-start"
+                        type="range"
+                        min={totalRows > 0 ? 1 : 0}
+                        max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                        step={1}
+                        value={visibleStart}
+                        onChange={(event) =>
+                            handleVisibleStartChange(event.target.valueAsNumber)
+                        }
+                        disabled={totalRows === 0}
+                    />
+
+                    <input
+                        className="visible-rows-slider-input visible-rows-slider-end"
+                        type="range"
+                        min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                        max={totalRows}
+                        step={1}
+                        value={visibleEnd}
+                        onChange={(event) =>
+                            handleVisibleEndChange(event.target.valueAsNumber)
+                        }
+                        disabled={totalRows === 0}
+                    />
+                </div>
+            </section>
         </section>
 
         
