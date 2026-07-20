@@ -21,6 +21,91 @@ interface InteractiveChartProps {
     data: ChartRow[];
 }
 
+interface ChartPoint extends ChartRow {
+    row_index: number;
+}
+
+interface ChartTooltipProps {
+    active?: boolean;
+    payload?: ReadonlyArray<{
+        payload?: ChartPoint;
+    }>;
+    xAxisField: string;
+    yAxisField: string;
+}
+
+function formatTooltipValue(value: unknown): string {
+    if (value === null || value === undefined || value === "") {
+        return "—";
+    }
+
+    return String(value);
+}
+
+function ChartTooltip({
+    active,
+    payload,
+    xAxisField,
+    yAxisField,
+}: ChartTooltipProps) {
+    const point = payload?.[0]?.payload;
+
+    if (!active || !point) {
+        return null;
+    }
+
+    return (
+        <div
+            style={{
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
+                borderRadius: 10,
+                boxShadow: "var(--shadow)",
+                color: "var(--text)",
+                padding: "0.75rem 0.85rem",
+                minWidth: 180,
+            }}
+        >
+            <div
+                style={{
+                    color: "var(--text)",
+                    fontWeight: 700,
+                    marginBottom: 8,
+                }}
+            >
+                Row: {formatTooltipValue(point.row_index)}
+            </div>
+
+            <div style={{ color: "var(--text-muted)", fontSize: 12, lineHeight: 1.6 }}>
+                <div>
+                    {xAxisField}: {formatTooltipValue(point[xAxisField])}
+                </div>
+                <div>
+                    {yAxisField}: {formatTooltipValue(point[yAxisField])}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function renderTooltipContent(
+    tooltipProps: {
+        active?: boolean;
+        payload?: unknown;
+    },
+    xAxisField: string,
+    yAxisField: string
+) {
+    return (
+        <ChartTooltip
+            active={tooltipProps.active}
+            payload={tooltipProps.payload as unknown as ReadonlyArray<{ payload?: ChartPoint }> | undefined}
+            xAxisField={xAxisField}
+            yAxisField={yAxisField}
+        />
+    );
+}
+
 function getNextAvailableColumn(
     columns: string[],
     excludedColumn: string,
@@ -40,6 +125,12 @@ function getNextAvailableColumn(
 export function InteractiveChart({
     data,
 }: InteractiveChartProps) {
+    const chartData = useMemo<ChartPoint[]>(() => {
+        return data.map((row, index) => ({
+            ...row,
+            row_index: index + 1,
+        }));
+    }, [data]);
 
     const columns = useMemo(() => {
 
@@ -82,12 +173,12 @@ export function InteractiveChart({
         chartType.charAt(0).toUpperCase() + chartType.slice(1);
 
     const xAxisKind = getFieldKind(
-        data,
+        chartData,
         selectedXAxis
     );
 
     const yAxisKind = getFieldKind(
-        data,
+        chartData,
         selectedYAxis
     );
 
@@ -219,7 +310,7 @@ export function InteractiveChart({
                     <ResponsiveContainer>
                         {chartType === "line" && (
                             <LineChart
-                                data={data}
+                                data={chartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -242,17 +333,7 @@ export function InteractiveChart({
                                 />
 
                                 <Tooltip
-                                    contentStyle={{
-                                        background: "var(--surface)",
-                                        border: "1px solid var(--border)",
-                                        borderRadius: 10,
-                                        boxShadow: "var(--shadow)",
-                                        color: "var(--text)",
-                                    }}
-                                    labelStyle={{
-                                        color: "var(--text)",
-                                        fontWeight: 700,
-                                    }}
+                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
                                     cursor={{ stroke: "var(--primary)", strokeDasharray: "4 4" }}
                                 />
 
@@ -278,7 +359,7 @@ export function InteractiveChart({
 
                         {chartType === "bar" && (
                             <BarChart
-                                data={data}
+                                data={chartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -301,17 +382,7 @@ export function InteractiveChart({
                                 />
 
                                 <Tooltip
-                                    contentStyle={{
-                                        background: "var(--surface)",
-                                        border: "1px solid var(--border)",
-                                        borderRadius: 10,
-                                        boxShadow: "var(--shadow)",
-                                        color: "var(--text)",
-                                    }}
-                                    labelStyle={{
-                                        color: "var(--text)",
-                                        fontWeight: 700,
-                                    }}
+                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
                                     cursor={{ fill: "var(--primary-soft)" }}
                                 />
 
@@ -358,17 +429,7 @@ export function InteractiveChart({
                                 />
 
                                 <Tooltip
-                                    contentStyle={{
-                                        background: "var(--surface)",
-                                        border: "1px solid var(--border)",
-                                        borderRadius: 10,
-                                        boxShadow: "var(--shadow)",
-                                        color: "var(--text)",
-                                    }}
-                                    labelStyle={{
-                                        color: "var(--text)",
-                                        fontWeight: 700,
-                                    }}
+                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
                                     cursor={{ stroke: "var(--primary)", strokeDasharray: "4 4" }}
                                 />
 
