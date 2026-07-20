@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import type { ChartRow } from "../types/chart";
-
-
+import { getFieldKind, isChartCombinationValid, type ChartType } from "../utils/visualizationValidation";
 import {
     ResponsiveContainer,
     LineChart,
@@ -22,54 +21,6 @@ interface InteractiveChartProps {
     data: ChartRow[];
 }
 
-type FieldKind = "continuous" | "discrete" | "temporal" | "unknown";
-
-type ChartType = "line" | "bar" | "scatter";
-
-interface ChartValidationResult {
-    isValid: boolean;
-    message: string;
-}
-
-interface ChartValidationRule {
-    isValid: (
-        xAxisKind: FieldKind,
-        yAxisKind: FieldKind
-    ) => boolean;
-    invalidMessage: string;
-}
-
-const chartValidationRules: Record<ChartType, ChartValidationRule> = {
-    line: {
-        isValid: (_xAxisKind, yAxisKind) => yAxisKind === "continuous",
-        invalidMessage: "Line charts require a continuous Y-axis.",
-    },
-    bar: {
-        isValid: (xAxisKind, yAxisKind) =>
-            (
-                xAxisKind === "discrete" ||
-                xAxisKind === "temporal"
-            ) && yAxisKind === "continuous",
-        invalidMessage: "Bar charts require a categorical or temporal X-axis and a continuous Y-axis.",
-    },
-    scatter: {
-        isValid: (xAxisKind, yAxisKind) =>
-            (
-                xAxisKind === "continuous" &&
-                yAxisKind === "continuous"
-            ) ||
-            (
-                xAxisKind === "temporal" &&
-                yAxisKind === "continuous"
-            ) ||
-            (
-                xAxisKind === "continuous" &&
-                yAxisKind === "temporal"
-            ),
-        invalidMessage: "Scatter charts require two continuous variables or one continuous variable paired with a temporal axis.",
-    },
-};
-
 function getNextAvailableColumn(
     columns: string[],
     excludedColumn: string,
@@ -84,135 +35,6 @@ function getNextAvailableColumn(
     }
 
     return columns.find((column) => column !== excludedColumn) ?? "";
-}
-
-function isEmptyValue(
-    value: unknown
-): boolean {
-    return value === null || value === undefined || value === "";
-}
-
-function hasTemporalFieldName(
-    field: string
-): boolean {
-    return /(^|_)(date|time|timestamp|datetime|created_at|updated_at|event_time)($|_)/i.test(
-        field
-    );
-}
-
-function hasDiscreteFieldName(
-    field: string
-): boolean {
-    return /(^|_)(id|code|type|status|category|class|group|name|city|country|department)($|_)/i.test(
-        field
-    );
-}
-
-function isContinuous(
-    value: unknown
-): boolean {
-    if (typeof value === "number") {
-        return Number.isFinite(value);
-    }
-
-    if (typeof value !== "string" || value.trim() === "") {
-        return false;
-    }
-
-    return Number.isFinite(
-        Number(value)
-    );
-}
-
-function isTemporal(
-    value: unknown
-): boolean {
-    if (typeof value !== "string" || value.trim() === "") {
-        return false;
-    }
-
-    const timestamp = Date.parse(
-        value
-    );
-
-    return Number.isFinite(
-        timestamp
-    ) && Number.isNaN(
-        Number(value)
-    );
-}
-
-function isDiscrete(
-    value: unknown
-): boolean {
-    return (
-        typeof value === "string" ||
-        typeof value === "boolean"
-    ) && !isTemporal(value) && !isContinuous(value);
-}
-
-function getFieldKind(
-    data: ChartRow[],
-    field: string
-): FieldKind {
-    const values = data
-        .map((row) => row[field])
-        .filter((value) => !isEmptyValue(value));
-
-    if (values.length === 0) {
-        return "unknown";
-    }
-
-    if (
-        hasTemporalFieldName(field) ||
-        values.every(isTemporal)
-    ) {
-        return "temporal";
-    }
-
-    if (
-        hasDiscreteFieldName(field) ||
-        values.every(isDiscrete)
-    ) {
-        return "discrete";
-    }
-
-    if (values.every(isContinuous)) {
-        return "continuous";
-    }
-
-    if (values.some(isDiscrete)) {
-        return "discrete";
-    }
-
-    return "unknown";
-}
-
-function isChartCombinationValid(
-    chartType: ChartType,
-    xAxisKind: FieldKind,
-    yAxisKind: FieldKind
-): ChartValidationResult {
-    const rule = chartValidationRules[chartType];
-
-    if (xAxisKind === "unknown" || yAxisKind === "unknown") {
-        return {
-            isValid: false,
-            message: "The selected fields do not contain enough usable values to determine a visualization type.",
-        };
-    }
-
-    if (rule.isValid(xAxisKind, yAxisKind)) {
-        return {
-            isValid: true,
-            message: "",
-        };
-    }
-
-    return {
-        isValid: false,
-        message: rule.invalidMessage,
-    };
 }
 
 export function InteractiveChart({
@@ -315,7 +137,7 @@ export function InteractiveChart({
             <div className="interactive-chart-header">
                 <div>
                     <h3> Data Visualization</h3>
-                    <p>Explore manufacturing data using  charts.</p>
+                        <p>Explore your uploaded data with interactive charts.</p>
                 </div>
             </div>
 
@@ -575,9 +397,26 @@ export function InteractiveChart({
                         </p>
                         <span>Try:</span>
                         <ul>
-                            <li>selecting a numeric field for the Y-axis</li>
-                            <li>choosing another chart type</li>
-                            <li>selecting different columns</li>
+                            {chartType === "scatter" && (
+                                <>
+                                    <li>use a continuous or temporal field on the X-axis</li>
+                                    <li>use a continuous field on the Y-axis</li>
+                                </>
+                            )}
+
+                            {chartType === "bar" && (
+                                <>
+                                    <li>use a categorical or temporal field on the X-axis</li>
+                                    <li>use a continuous field on the Y-axis</li>
+                                </>
+                            )}
+
+                            {chartType === "line" && (
+                                <>
+                                    <li>use a continuous field on the Y-axis</li>
+                                    <li>keep temporal fields on the X-axis for time-based trends</li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 )}
