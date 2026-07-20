@@ -8,6 +8,7 @@ import { Sidebar } from "./components/Sidebar";
 import { StatusMessage } from "./components/StatusMessage";
 import { useTheme } from "./hooks/useTheme";
 import { getReport, uploadAnalysis, getChartData } from "./services/api";
+import type { ChartRow } from "./types/chart";
 import type { Report } from "./types/report";
 import { getErrorMessage } from "./utils/errors";
 
@@ -17,38 +18,12 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [report, setReport] = useState<Report | null>(null);
 
-  const [chartData, setChartData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<ChartRow[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  async function loadReport(id: number) {
-    setIsLoading(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const data = await getReport(id);
-      setReport(data);
-      
-      
-      const chartResponse = await getChartData(id);
-
-      setChartData(chartResponse.data);
-      
-      
-      setSuccess(`Report #${data.id} loaded successfully.`);
-      window.setTimeout(() => {
-        document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
-    } catch (requestError) {
-      setError(getErrorMessage(requestError));
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   async function handleAnalyze() {
     if (!file) {
@@ -99,9 +74,7 @@ function App() {
 
       <div className="app-main">
         <AppHeader
-          onLookup={loadReport}
           onToggleTheme={toggleTheme}
-          reportId={report?.id ?? null}
           theme={theme}
         />
 
