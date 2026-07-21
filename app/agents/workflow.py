@@ -104,17 +104,7 @@ def recommendation_node(
 def should_generate_recommendations(
     state: AnalysisState
 ):
-    anomalies = state["anomalies"]
-
-    has_anomalies = any(
-        len(values) > 0
-        for values in anomalies.values()
-    )
-
-    if has_anomalies:
-        return "generate_recommendations"
-
-    return END
+    return "generate_recommendations"
 
 
 def risk_node(
