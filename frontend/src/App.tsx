@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { AppHeader } from "./components/AppHeader";
 import { EmptyState } from "./components/EmptyState";
@@ -22,6 +22,19 @@ function App() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [analysisNotice, setAnalysisNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!analysisNotice) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById("analysis-notice")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [analysisNotice]);
 
   async function handleAnalyze() {
     if (!file) {
@@ -51,9 +64,6 @@ function App() {
       setChartData(chartResponse.data);
 
       setSuccess(upload.message);
-      window.setTimeout(() => {
-        document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
     } catch (requestError) {
       setError(getErrorMessage(requestError));
       setAnalysisNotice(null);
@@ -126,7 +136,7 @@ function App() {
           />
 
           {analysisNotice && (
-            <div className="quota-notice" role="status" aria-live="polite">
+            <div className="quota-notice" id="analysis-notice" role="status" aria-live="polite">
               <strong>Notice</strong>
               <div>{analysisNotice}</div>
             </div>
