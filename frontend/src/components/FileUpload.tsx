@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
-import { Icon } from "./Icon";
+import { Icon, type IconName } from "./Icon";
 
 interface FileUploadProps {
   file: File | null;
@@ -8,6 +8,28 @@ interface FileUploadProps {
   onAnalyze: () => void;
   onFileSelect: (file: File | null) => void;
 }
+
+interface SampleDataset {
+  label: string;
+  fileName: string;
+  description: string;
+  icon: IconName;
+}
+
+const SAMPLE_DATASETS: SampleDataset[] = [
+  {
+    label: "Test Data 1",
+    fileName: "testdata1.csv",
+    description: "Temperature, pressure, and vibration readings from production equipment.",
+    icon: "file",
+  },
+  {
+    label: "Test Data 2",
+    fileName: "testdata2.csv",
+    description: "Infrastructure telemetry with CPU, memory, disk, and latency metrics.",
+    icon: "file",
+  },
+];
 
 export function FileUpload({
   file,
@@ -18,6 +40,27 @@ export function FileUpload({
 }: FileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  async function loadSampleDataset(sample: SampleDataset) {
+    if (isLoading) {
+      return;
+    }
+
+    const response = await fetch(`/samples/${sample.fileName}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to load ${sample.label}.`);
+    }
+
+    const csvText = await response.text();
+    const sampleFile = new File(
+      [csvText],
+      sample.fileName,
+      { type: "text/csv" }
+    );
+
+    onFileSelect(sampleFile);
+  }
 
   function selectFile(event: ChangeEvent<HTMLInputElement>) {
     onFileSelect(event.target.files?.[0] ?? null);
@@ -35,8 +78,8 @@ export function FileUpload({
         <span className="section-kicker"></span>
         <h2>Hello, Welcome !</h2>
         <p>
-          Upload a CSV. The AI workflow will inspect it for
-          anomalies, operational risks, and recommended actions.
+          Upload a CSV. The  workflow will inspect it for
+          anomalies, provide AI generated operational risks and recommended actions.
         </p>
 
         <div className="upload-features">
@@ -94,6 +137,37 @@ export function FileUpload({
             <span style={{ width: `${Math.max(progress, 8)}%` }} />
           </div>
         )}
+
+        <div className="sample-datasets">
+          <div className="sample-datasets-header">Try Sample Datasets</div>
+
+          <div className="sample-datasets-list">
+            {SAMPLE_DATASETS.map((sample) => (
+              <button
+                key={sample.fileName}
+                className="sample-dataset-item"
+                disabled={isLoading}
+                onClick={async () => {
+                  try {
+                    await loadSampleDataset(sample);
+                  } catch {
+                    return;
+                  }
+                }}
+                type="button"
+              >
+                <span className="sample-dataset-icon" aria-hidden="true">
+                  <Icon name={sample.icon} size={16} />
+                </span>
+
+                <span className="sample-dataset-copy">
+                  <strong>{sample.label}</strong>
+                  <span>{sample.description}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <button
