@@ -4,6 +4,7 @@ from app.agents.state import AnalysisState
 from app.services.csv_service import CSVService
 from app.services.analysis_service import AnalysisService
 from app.services.anomalies_service import AnomalyService
+from app.services.data_preprocessing_service import DataPreprocessingService
 
 from app.agents.data_quality_agent import DataQualityAgent
 from app.agents.insights_agent import InsightsAgent
@@ -17,6 +18,7 @@ from app.agents.report_agent import ReportAgent
 csv_service = CSVService()
 analysis_service = AnalysisService()
 anomaly_service = AnomalyService()
+preprocessing_service = DataPreprocessingService()
 data_quality_agent = DataQualityAgent()
 insights_agent = InsightsAgent()
 maintenance_agent = MaintenanceAgent()
@@ -32,6 +34,7 @@ def load_csv_node(
     )
 
     return {
+        "original_dataframe": dataframe,
         "dataframe": dataframe
     }
 
@@ -44,10 +47,23 @@ def data_quality_node(
     )
 
 
+def preprocess_node(
+    state: AnalysisState
+):
+    processed_dataframe = preprocessing_service.preprocess(
+        state["original_dataframe"]
+    )
+
+    return {
+        "processed_dataframe": processed_dataframe,
+        "dataframe": processed_dataframe,
+    }
+
+
 def analyze_node(
     state: AnalysisState
 ):
-    dataframe = state["dataframe"]
+    dataframe = state["processed_dataframe"]
 
     summary = analysis_service.generate_summary(
         dataframe
@@ -60,7 +76,7 @@ def analyze_node(
 def anomaly_node(
     state: AnalysisState
 ):
-    dataframe = state["dataframe"]
+    dataframe = state["processed_dataframe"]
 
     anomalies = anomaly_service.detect_anomalies(
         dataframe
@@ -160,6 +176,11 @@ graph_builder.add_node(
 )
 
 graph_builder.add_node(
+    "preprocess",
+    preprocess_node
+)
+
+graph_builder.add_node(
     "analyze",
     analyze_node
 )
@@ -203,6 +224,11 @@ graph_builder.add_edge(
 
 graph_builder.add_edge(
     "check_data_quality",
+    "preprocess"
+)
+
+graph_builder.add_edge(
+    "preprocess",
     "analyze"
 )
 

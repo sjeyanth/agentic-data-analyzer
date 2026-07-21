@@ -19,7 +19,7 @@ class DataQualityAgent:
         """
 
         data_quality = self.service.analyze(
-            state["dataframe"]
+            state["original_dataframe"]
         )
 
         return {
