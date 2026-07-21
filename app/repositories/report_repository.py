@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.models.report import Report
+from app.utils.json_sanitizer import sanitize_for_json
 
 
 class ReportRepository:
@@ -18,6 +19,12 @@ class ReportRepository:
         csv_file_path: str
         
     ) -> Report:
+
+        summary = sanitize_for_json(summary)
+        anomalies = sanitize_for_json(anomalies)
+        data_quality = sanitize_for_json(data_quality)
+        insights = sanitize_for_json(insights)
+        recommendations = sanitize_for_json(recommendations)
 
         report = Report(
             summary=summary,
