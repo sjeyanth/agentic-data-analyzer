@@ -24,9 +24,16 @@ const SAMPLE_DATASETS: SampleDataset[] = [
     icon: "file",
   },
   {
-    label: "Test Data 2",
+    label: "Test Data (Large no.of fields)",
     fileName: "testdata2.csv",
     description: "Infrastructure telemetry with CPU, memory, disk, and latency metrics.",
+    icon: "file",
+  },
+
+  {
+    label: "Data with Quality Issues",
+    fileName: "manufacturing_quality_issues.csv",
+    description: "Manufacturing sensor data with missing values, duplicates, outliers, and blanks.",
     icon: "file",
   },
 ];
@@ -79,7 +86,7 @@ export function FileUpload({
         <h2>Hello, Welcome !</h2>
         <p>
           Upload a CSV. The  workflow will inspect it for
-          anomalies, provide AI generated operational risks and recommended actions.
+          anomalies, provide AI generated operational insights and recommended actions.
         </p>
 
         <div className="upload-features">
@@ -188,6 +195,7 @@ export function FileUpload({
           </>
         )}
       </button>
+
     </section>
   );
 }

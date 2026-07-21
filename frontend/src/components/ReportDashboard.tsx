@@ -26,7 +26,7 @@ export function ReportDashboard({ report, chartData }: ReportDashboardProps) {
         <div>
           <span className="section-kicker">Analysis complete</span>
           <h2>Manufacturing intelligence report</h2>
-          <p>Report #{report.id}</p>
+          <p>Report:</p>
         </div>
         <div className={`risk-badge ${riskTone}`}>
           <span className="risk-pulse" />
