@@ -9,3 +9,4 @@ class AnalysisRequest(BaseModel):
 class AnalysisResponse(BaseModel):
     report_id: int
     message: str
+    analysis_warning: str | None = None

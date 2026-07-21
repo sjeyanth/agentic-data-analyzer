@@ -1,6 +1,7 @@
 export interface AnalysisUploadResponse {
   report_id: number;
   message: string;
+  analysis_warning?: string | null;
 }
 
 export interface Statistics {

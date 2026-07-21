@@ -8,6 +8,8 @@ class AnalysisState(TypedDict, total=False):
 
     dataframe: pd.DataFrame
 
+    analysis_meta: dict
+
     data_quality: dict
 
     summary: dict

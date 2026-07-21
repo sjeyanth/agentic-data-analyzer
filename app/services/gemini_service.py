@@ -27,7 +27,8 @@ class GeminiService:
           data_quality: dict,
           summary: dict,
           anomalies: dict,
-          risk_level: str | None = None
+            risk_level: str | None = None,
+            analysis_meta: dict | None = None
         ) -> list[str]:
 
             prompt = f"""
@@ -93,21 +94,26 @@ class GeminiService:
                     data_quality=data_quality,
                     summary=summary,
                     anomalies=anomalies,
-                    risk_level=risk_level
+                    risk_level=risk_level,
+                    analysis_meta=analysis_meta,
+                    reason="fallback"
                 )
             except ResourceExhausted:
                 return self._fallback_insights(
                     data_quality=data_quality,
                     summary=summary,
                     anomalies=anomalies,
-                    risk_level=risk_level
+                    risk_level=risk_level,
+                    analysis_meta=analysis_meta,
+                    reason="quota"
                 )
 
     def generate_recommendations(
           self,
           summary: dict,
           anomalies: dict,
-          insights: list[str]
+            insights: list[str],
+            analysis_meta: dict | None = None
         ) -> list[str]:
             
             prompt = f"""
@@ -170,19 +176,24 @@ class GeminiService:
                 return parsed_recommendations or self._fallback_recommendations(
                     summary=summary,
                     anomalies=anomalies,
-                    insights=insights
+                    insights=insights,
+                    analysis_meta=analysis_meta,
+                    reason="fallback"
                 )
             except ResourceExhausted:
                 return self._fallback_recommendations(
                     summary=summary,
                     anomalies=anomalies,
-                    insights=insights
+                    insights=insights,
+                    analysis_meta=analysis_meta,
+                    reason="quota"
                 )
 
     def generate_risk_level(
         self,
         anomalies: dict,
-        recommendations: list[str]
+        recommendations: list[str],
+        analysis_meta: dict | None = None
     ) -> str:
 
         prompt = f"""
@@ -221,7 +232,19 @@ class GeminiService:
                 return normalized_risk
 
         except ResourceExhausted:
-            pass
+            self._mark_analysis_fallback(
+                analysis_meta=analysis_meta,
+                reason="quota"
+            )
+            return self._fallback_risk_level(
+                anomalies=anomalies,
+                recommendations=recommendations
+            )
+
+        self._mark_analysis_fallback(
+            analysis_meta=analysis_meta,
+            reason="fallback"
+        )
 
         return self._fallback_risk_level(
             anomalies=anomalies,
@@ -233,7 +256,8 @@ class GeminiService:
         summary: dict,
         insights: list[str],
         recommendations: list[str],
-        risk_level: str
+        risk_level: str,
+        analysis_meta: dict | None = None
     ) -> str:
 
         prompt = f"""
@@ -292,7 +316,21 @@ class GeminiService:
                 return text
 
         except ResourceExhausted:
-            pass
+            self._mark_analysis_fallback(
+                analysis_meta=analysis_meta,
+                reason="quota"
+            )
+            return self._fallback_executive_summary(
+                summary=summary,
+                insights=insights,
+                recommendations=recommendations,
+                risk_level=risk_level
+            )
+
+        self._mark_analysis_fallback(
+            analysis_meta=analysis_meta,
+            reason="fallback"
+        )
 
         return self._fallback_executive_summary(
             summary=summary,
@@ -368,13 +406,41 @@ class GeminiService:
 
         return severity_counts
 
+    def _fallback_warning_message(self, reason: str) -> str:
+        if reason == "quota":
+            return (
+                "AI quota reached. This analysis was generated with deterministic fallback logic, not the AI model."
+            )
+
+        return (
+            "AI-generated analysis was unavailable. This analysis was generated with deterministic fallback logic, not the AI model."
+        )
+
+    def _mark_analysis_fallback(
+        self,
+        analysis_meta: dict | None,
+        reason: str
+    ) -> None:
+        if analysis_meta is None:
+            return
+
+        analysis_meta["analysis_ai_generated"] = False
+        analysis_meta["analysis_warning"] = self._fallback_warning_message(reason)
+
     def _fallback_insights(
         self,
         data_quality: dict,
         summary: dict,
         anomalies: dict,
-        risk_level: str | None = None
+        risk_level: str | None = None,
+        analysis_meta: dict | None = None,
+        reason: str = "fallback"
     ) -> list[str]:
+        self._mark_analysis_fallback(
+            analysis_meta=analysis_meta,
+            reason=reason
+        )
+
         total_anomalies, most_affected_column, most_anomalies = self._anomaly_counts(
             anomalies
         )
@@ -412,8 +478,15 @@ class GeminiService:
         self,
         summary: dict,
         anomalies: dict,
-        insights: list[str]
+        insights: list[str],
+        analysis_meta: dict | None = None,
+        reason: str = "fallback"
     ) -> list[str]:
+        self._mark_analysis_fallback(
+            analysis_meta=analysis_meta,
+            reason=reason
+        )
+
         total_anomalies, most_affected_column, most_anomalies = self._anomaly_counts(
             anomalies
         )

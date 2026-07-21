@@ -10,9 +10,11 @@ class RiskAgent:
     def run(
         self,
         anomalies,
-        recommendations
+        recommendations,
+        analysis_meta=None
     ):
         return self.gemini.generate_risk_level(
             anomalies=anomalies,
-            recommendations=recommendations
+            recommendations=recommendations,
+            analysis_meta=analysis_meta
         )

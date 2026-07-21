@@ -17,10 +17,15 @@ class ReportService:
         file_path: str,
         db: Session
     ):
+        analysis_meta = {
+            "analysis_ai_generated": True,
+            "analysis_warning": None,
+        }
 
         workflow_result = workflow.invoke(
             {
-                "file_path": file_path
+                "file_path": file_path,
+                "analysis_meta": analysis_meta,
             }
         )
 
@@ -50,4 +55,4 @@ class ReportService:
             csv_file_path=file_path
         )
 
-        return report
+        return report, workflow_result.get("analysis_meta", analysis_meta)

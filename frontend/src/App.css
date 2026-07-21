@@ -311,6 +311,31 @@
   scroll-margin-top: 105px;
 }
 
+.quota-notice {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--warning, #d39b2b) 34%, var(--border));
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--warning, #d39b2b) 8%, transparent), transparent),
+    var(--surface-soft);
+  color: var(--text);
+}
+
+.quota-notice strong {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.quota-notice div {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
 .upload-copy {
   align-self: center;
 }
@@ -551,6 +576,24 @@
   opacity: 0.52;
 }
 
+.quota-notice {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.quota-notice strong {
+  display: block;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+
 .spinner {
   width: 15px;
   height: 15px;
@@ -561,25 +604,14 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.empty-state {
-  display: flex;
-  min-height: 250px;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 24px;
-  padding: 38px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--surface) 58%, transparent);
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .empty-visual {
-  position: relative;
-  width: 105px;
+  display: grid;
+  align-items: center;
   height: 115px;
   padding: 14px;
   border: 1px solid var(--border);

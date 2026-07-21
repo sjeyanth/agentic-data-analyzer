@@ -22,11 +22,11 @@ class InsightsAgent:
             data_quality=state["data_quality"],
             summary=state["summary"],
             anomalies=state["anomalies"],
-            risk_level=state.get(
-                "risk_level"
-            )
+            risk_level=state.get("risk_level"),
+            analysis_meta=state.get("analysis_meta")
         )
 
         return {
-            "insights": insights
+            "insights": insights,
+            "analysis_meta": state.get("analysis_meta")
         }

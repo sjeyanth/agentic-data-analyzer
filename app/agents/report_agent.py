@@ -11,11 +11,13 @@ class ReportAgent:
         summary,
         insights,
         recommendations,
-        risk_level
+        risk_level,
+        analysis_meta=None
     ):
         return self.gemini.generate_executive_summary(
             summary=summary,
             insights=insights,
             recommendations=recommendations,
-            risk_level=risk_level
+            risk_level=risk_level,
+            analysis_meta=analysis_meta
         )

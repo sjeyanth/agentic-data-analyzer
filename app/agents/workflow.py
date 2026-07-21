@@ -89,12 +89,14 @@ def recommendation_node(
         maintenance_agent.run(
             summary=state["summary"],
             anomalies=state["anomalies"],
-            insights=state["insights"]
+            insights=state["insights"],
+            analysis_meta=state.get("analysis_meta")
         )
     )
 
     return {
-        "recommendations": recommendations
+        "recommendations": recommendations,
+        "analysis_meta": state.get("analysis_meta")
     }
 
 
@@ -122,12 +124,14 @@ def risk_node(
     risk_level = (
         risk_agent.run(
             anomalies=state["anomalies"],
-            recommendations=state["recommendations"]
+            recommendations=state["recommendations"],
+            analysis_meta=state.get("analysis_meta")
         )
     )
 
     return {
-        "risk_level": risk_level
+        "risk_level": risk_level,
+        "analysis_meta": state.get("analysis_meta")
     }
 
 def report_node(
@@ -139,12 +143,14 @@ def report_node(
             summary=state["summary"],
             insights=state["insights"],
             recommendations=state["recommendations"],
-            risk_level=state["risk_level"]
+            risk_level=state["risk_level"],
+            analysis_meta=state.get("analysis_meta")
         )
     )
 
     return {
-        "executive_summary": executive_summary
+        "executive_summary": executive_summary,
+        "analysis_meta": state.get("analysis_meta")
     }
 
 

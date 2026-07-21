@@ -7,23 +7,21 @@ import { ReportDashboard } from "./components/ReportDashboard";
 import { Sidebar } from "./components/Sidebar";
 import { StatusMessage } from "./components/StatusMessage";
 import { useTheme } from "./hooks/useTheme";
-import { getReport, uploadAnalysis, getChartData } from "./services/api";
+import { getChartData, getReport, uploadAnalysis } from "./services/api";
 import type { ChartRow } from "./types/chart";
 import type { Report } from "./types/report";
 import { getErrorMessage } from "./utils/errors";
-
 
 function App() {
   const { theme, toggleTheme } = useTheme();
   const [file, setFile] = useState<File | null>(null);
   const [report, setReport] = useState<Report | null>(null);
-
   const [chartData, setChartData] = useState<ChartRow[]>([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [analysisNotice, setAnalysisNotice] = useState<string | null>(null);
 
   async function handleAnalyze() {
     if (!file) {
@@ -40,17 +38,17 @@ function App() {
     setUploadProgress(0);
     setError("");
     setSuccess("");
+    setAnalysisNotice(null);
 
     try {
       const upload = await uploadAnalysis(file, setUploadProgress);
+      setAnalysisNotice(upload.analysis_warning ?? null);
+
       const data = await getReport(upload.report_id);
       setReport(data);
 
       const chartResponse = await getChartData(upload.report_id);
-
       setChartData(chartResponse.data);
- 
-
 
       setSuccess(upload.message);
       window.setTimeout(() => {
@@ -58,6 +56,7 @@ function App() {
       }, 50);
     } catch (requestError) {
       setError(getErrorMessage(requestError));
+      setAnalysisNotice(null);
     } finally {
       setIsLoading(false);
       setUploadProgress(0);
@@ -67,6 +66,8 @@ function App() {
   async function fetchReportById(id: number) {
     setIsLoading(true);
     setError("");
+    setAnalysisNotice(null);
+
     try {
       const data = await getReport(id);
       setReport(data);
@@ -115,23 +116,30 @@ function App() {
           <FileUpload
             file={file}
             isLoading={isLoading}
-            onAnalyze={handleAnalyze} 
+            progress={uploadProgress}
+            onAnalyze={handleAnalyze}
             onFileSelect={(selectedFile) => {
               setFile(selectedFile);
               setError("");
+              setAnalysisNotice(null);
             }}
-            progress={uploadProgress}
           />
 
-          {report ? <ReportDashboard 
-          report={report}
-          chartData={chartData}
-          /> : <EmptyState />}
+          {analysisNotice && (
+            <div className="quota-notice" role="status" aria-live="polite">
+              <strong>Notice</strong>
+              <div>{analysisNotice}</div>
+            </div>
+          )}
+
+          {report ? (
+            <ReportDashboard report={report} chartData={chartData} />
+          ) : (
+            <EmptyState />
+          )}
         </main>
 
-        <footer className="app-footer">
-          
-        </footer>
+        <footer className="app-footer"></footer>
       </div>
     </div>
   );

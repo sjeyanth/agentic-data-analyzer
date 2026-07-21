@@ -11,10 +11,12 @@ class MaintenanceAgent:
         self,
         summary,
         anomalies,
-        insights
+        insights,
+        analysis_meta=None
     ):
         return self.gemini.generate_recommendations(
             summary=summary,
             anomalies=anomalies,
-            insights=insights
+            insights=insights,
+            analysis_meta=analysis_meta
         )
