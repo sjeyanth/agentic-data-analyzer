@@ -22,7 +22,9 @@ export function ReportCard({
         <span><Icon name={icon} size={19} /></span>
         <h3>{title}</h3>
       </div>
-      {children}
+      <div className="section-content">
+        {children}
+      </div>
     </article>
   );
 }

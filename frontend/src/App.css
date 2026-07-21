@@ -787,12 +787,16 @@
 }
 
 .report-section {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding: clamp(22px, 3vw, 30px);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
   box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
+  height: clamp(380px, 42vw, 560px);
+  overflow: hidden;
   scroll-margin-top: 105px;
 }
 
@@ -833,6 +837,10 @@
 .section-content {
   display: grid;
   gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .metric-grid {
