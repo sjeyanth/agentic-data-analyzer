@@ -647,85 +647,91 @@ export function InteractiveChart({
             </footer>
 
             <section className="visible-rows-panel" aria-label="Visible rows">
-                <div className="visible-rows-header">
-                    <div>
-                        <h4>Visible Rows</h4>
-                        <p>Filter the dataset .</p>
-                    </div>
+                <div className="visible-rows-copy">
+                    <h4>Visible Rows</h4>
+                    <p>Filter the dataset before it is plotted.</p>
+                </div>
 
+                <div className="visible-rows-controls">
                     <div className="visible-rows-status" aria-live="polite">
                         Showing {visibleRowCount} of {totalRows} rows
                     </div>
-                </div>
 
-                <div className="visible-rows-grid">
-                    <label className="chart-control-field visible-rows-field">
-                        <span>Start</span>
+                    <div className="visible-rows-inline">
+                        <div className="visible-rows-grid">
+                            <label className="chart-control-field visible-rows-field">
+                                <span>Start</span>
 
-                        <input
-                            type="number"
-                            min={totalRows > 0 ? 1 : 0}
-                            max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
-                            step={1}
-                            value={visibleStart}
-                            onChange={(event) =>
-                                handleVisibleStartChange(event.target.valueAsNumber)
-                            }
-                            disabled={totalRows === 0}
-                        />
-                    </label>
+                                <input
+                                    type="number"
+                                    min={totalRows > 0 ? 1 : 0}
+                                    max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                                    step={1}
+                                    value={visibleStart}
+                                    onChange={(event) =>
+                                        handleVisibleStartChange(event.target.valueAsNumber)
+                                    }
+                                    disabled={totalRows === 0}
+                                />
+                            </label>
 
-                    <label className="chart-control-field visible-rows-field">
-                        <span>End</span>
+                            <label className="chart-control-field visible-rows-field">
+                                <span>End</span>
 
-                        <input
-                            type="number"
-                            min={totalRows > 0 ? Math.min(2, totalRows) : 0}
-                            max={totalRows}
-                            step={1}
-                            value={visibleEnd}
-                            onChange={(event) =>
-                                handleVisibleEndChange(event.target.valueAsNumber)
-                            }
-                            disabled={totalRows === 0}
-                        />
-                    </label>
-                </div>
+                                <input
+                                    type="number"
+                                    min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                                    max={totalRows}
+                                    step={1}
+                                    value={visibleEnd}
+                                    onChange={(event) =>
+                                        handleVisibleEndChange(event.target.valueAsNumber)
+                                    }
+                                    disabled={totalRows === 0}
+                                />
+                            </label>
+                        </div>
 
-                <div className="visible-rows-slider" aria-label="Visible rows range selector">
-                    <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
+                        <div className="visible-rows-slider-wrap">
+                            <span className="visible-rows-slider-label">  .. Adjust Rows Range using sliders</span>
 
-                    <input
-                        className={`visible-rows-slider-input ${activeVisibleThumb === "start" ? "visible-rows-slider-start active" : "visible-rows-slider-start"}`}
-                        type="range"
-                        min={totalRows > 0 ? 1 : 0}
-                        max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
-                        step={1}
-                        value={visibleStart}
-                        onPointerDown={() => setVisibleThumbActive("start")}
-                        onFocus={() => setVisibleThumbActive("start")}
-                        onBlur={clearVisibleThumbActive}
-                        onChange={(event) =>
-                            handleVisibleStartChange(event.target.valueAsNumber)
-                        }
-                        disabled={totalRows === 0}
-                    />
+                            <div className="visible-rows-slider" aria-label="Visible rows range selector">
+                            <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
 
-                    <input
-                        className={`visible-rows-slider-input ${activeVisibleThumb === "end" ? "visible-rows-slider-end active" : "visible-rows-slider-end"}`}
-                        type="range"
-                        min={totalRows > 0 ? Math.min(2, totalRows) : 0}
-                        max={totalRows}
-                        step={1}
-                        value={visibleEnd}
-                        onPointerDown={() => setVisibleThumbActive("end")}
-                        onFocus={() => setVisibleThumbActive("end")}
-                        onBlur={clearVisibleThumbActive}
-                        onChange={(event) =>
-                            handleVisibleEndChange(event.target.valueAsNumber)
-                        }
-                        disabled={totalRows === 0}
-                    />
+                            <input
+                                className={`visible-rows-slider-input ${activeVisibleThumb === "start" ? "visible-rows-slider-start active" : "visible-rows-slider-start"}`}
+                                type="range"
+                                min={totalRows > 0 ? 1 : 0}
+                                max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                                step={1}
+                                value={visibleStart}
+                                onPointerDown={() => setVisibleThumbActive("start")}
+                                onFocus={() => setVisibleThumbActive("start")}
+                                onBlur={clearVisibleThumbActive}
+                                onChange={(event) =>
+                                    handleVisibleStartChange(event.target.valueAsNumber)
+                                }
+                                disabled={totalRows === 0}
+                            />
+
+                            <input
+                                className={`visible-rows-slider-input ${activeVisibleThumb === "end" ? "visible-rows-slider-end active" : "visible-rows-slider-end"}`}
+                                type="range"
+                                min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                                max={totalRows}
+                                step={1}
+                                value={visibleEnd}
+                                onPointerDown={() => setVisibleThumbActive("end")}
+                                onFocus={() => setVisibleThumbActive("end")}
+                                onBlur={clearVisibleThumbActive}
+                                onChange={(event) =>
+                                    handleVisibleEndChange(event.target.valueAsNumber)
+                                }
+                                disabled={totalRows === 0}
+                            />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </section>
