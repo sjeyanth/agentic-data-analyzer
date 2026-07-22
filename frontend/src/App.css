@@ -1505,6 +1505,27 @@
   background: var(--surface);
 }
 
+.chart-preparation-status {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chart-preparation-status.success {
+  border-color: color-mix(in srgb, var(--primary) 24%, var(--border));
+  color: var(--primary-dark);
+  background: color-mix(in srgb, var(--primary-soft) 78%, var(--surface));
+}
+
+.chart-preparation-status.unsupported,
+.chart-preparation-status.empty {
+  border-color: color-mix(in srgb, var(--amber) 22%, var(--border));
+}
+
 .chart-empty-state {
   display: flex;
   height: 100%;

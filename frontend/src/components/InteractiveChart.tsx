@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { ChartRow } from "../types/chart";
-import { getFieldKind, isChartCombinationValid, type ChartType } from "../utils/visualizationValidation";
+import { type ChartType } from "../utils/visualizationValidation";
+import { prepareVisualizationData } from "../utils/visualizationPreparation";
 import {
     ResponsiveContainer,
     LineChart,
@@ -30,8 +31,10 @@ interface ChartTooltipProps {
     payload?: ReadonlyArray<{
         payload?: ChartPoint;
     }>;
-    xAxisField: string;
-    yAxisField: string;
+    xAxisLabel: string;
+    yAxisLabel: string;
+    xAxisDataKey: string;
+    yAxisDataKey: string;
 }
 
 function formatTooltipValue(value: unknown): string {
@@ -45,8 +48,10 @@ function formatTooltipValue(value: unknown): string {
 function ChartTooltip({
     active,
     payload,
-    xAxisField,
-    yAxisField,
+    xAxisLabel,
+    yAxisLabel,
+    xAxisDataKey,
+    yAxisDataKey,
 }: ChartTooltipProps) {
     const point = payload?.[0]?.payload;
 
@@ -78,10 +83,10 @@ function ChartTooltip({
 
             <div style={{ color: "var(--text-muted)", fontSize: 12, lineHeight: 1.6 }}>
                 <div>
-                    {xAxisField}: {formatTooltipValue(point[xAxisField])}
+                    {xAxisLabel}: {formatTooltipValue(point[xAxisDataKey])}
                 </div>
                 <div>
-                    {yAxisField}: {formatTooltipValue(point[yAxisField])}
+                    {yAxisLabel}: {formatTooltipValue(point[yAxisDataKey])}
                 </div>
             </div>
         </div>
@@ -93,15 +98,19 @@ function renderTooltipContent(
         active?: boolean;
         payload?: unknown;
     },
-    xAxisField: string,
-    yAxisField: string
+    xAxisLabel: string,
+    yAxisLabel: string,
+    xAxisDataKey: string,
+    yAxisDataKey: string
 ) {
     return (
         <ChartTooltip
             active={tooltipProps.active}
             payload={tooltipProps.payload as unknown as ReadonlyArray<{ payload?: ChartPoint }> | undefined}
-            xAxisField={xAxisField}
-            yAxisField={yAxisField}
+            xAxisLabel={xAxisLabel}
+            yAxisLabel={yAxisLabel}
+            xAxisDataKey={xAxisDataKey}
+            yAxisDataKey={yAxisDataKey}
         />
     );
 }
@@ -241,21 +250,17 @@ export function InteractiveChart({
     const visualizationLabel =
         chartType.charAt(0).toUpperCase() + chartType.slice(1);
 
-    const xAxisKind = getFieldKind(
-        chartData,
-        selectedXAxis
-    );
+    const preparedVisualization = useMemo(() => (
+        prepareVisualizationData({
+            data: visibleChartData,
+            chartType,
+            xAxisField: selectedXAxis,
+            yAxisField: selectedYAxis,
+        })
+    ), [visibleChartData, chartType, selectedXAxis, selectedYAxis]);
 
-    const yAxisKind = getFieldKind(
-        chartData,
-        selectedYAxis
-    );
-
-    const chartValidation = isChartCombinationValid(
-        chartType,
-        xAxisKind,
-        yAxisKind
-    );
+    const preparedChartData = preparedVisualization.dataset;
+    const canRenderChart = preparedVisualization.status === "success" && preparedChartData.length > 0;
 
     function handleXAxisChange(
         value: string
@@ -461,12 +466,20 @@ export function InteractiveChart({
 
             <div className="interactive-chart-divider" />
 
+            <div
+                className={`chart-preparation-status ${preparedVisualization.status}`}
+                role="status"
+                aria-live="polite"
+            >
+                {preparedVisualization.message}
+            </div>
+
             <div className="chart-visualization">
-                {chartValidation.isValid ? (
+                {canRenderChart ? (
                     <ResponsiveContainer>
                         {chartType === "line" && (
                             <LineChart
-                                data={visibleChartData}
+                                data={preparedChartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -476,7 +489,7 @@ export function InteractiveChart({
                                 />
 
                                 <XAxis
-                                    dataKey={selectedXAxis}
+                                    dataKey={preparedVisualization.xAxisDataKey}
                                     tick={{ fill: "var(--text-muted)", fontSize: 12 }}
                                     tickLine={false}
                                     axisLine={{ stroke: "var(--border)" }}
@@ -489,7 +502,13 @@ export function InteractiveChart({
                                 />
 
                                 <Tooltip
-                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
+                                    content={(tooltipProps) => renderTooltipContent(
+                                        tooltipProps,
+                                        preparedVisualization.xAxisLabel,
+                                        preparedVisualization.yAxisLabel,
+                                        preparedVisualization.xAxisDataKey,
+                                        preparedVisualization.yAxisDataKey
+                                    )}
                                     cursor={{ stroke: "var(--primary)", strokeDasharray: "4 4" }}
                                 />
 
@@ -503,7 +522,7 @@ export function InteractiveChart({
 
                                 <Line
                                     type="monotone"
-                                    dataKey={selectedYAxis}
+                                    dataKey={preparedVisualization.yAxisDataKey}
                                     stroke="var(--primary)"
                                     strokeWidth={2.5}
                                     dot={false}
@@ -515,7 +534,7 @@ export function InteractiveChart({
 
                         {chartType === "bar" && (
                             <BarChart
-                                data={visibleChartData}
+                                data={preparedChartData}
                                 margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
                             >
                                 <CartesianGrid
@@ -525,7 +544,7 @@ export function InteractiveChart({
                                 />
 
                                 <XAxis
-                                    dataKey={selectedXAxis}
+                                    dataKey={preparedVisualization.xAxisDataKey}
                                     tick={{ fill: "var(--text-muted)", fontSize: 12 }}
                                     tickLine={false}
                                     axisLine={{ stroke: "var(--border)" }}
@@ -538,7 +557,13 @@ export function InteractiveChart({
                                 />
 
                                 <Tooltip
-                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
+                                    content={(tooltipProps) => renderTooltipContent(
+                                        tooltipProps,
+                                        preparedVisualization.xAxisLabel,
+                                        preparedVisualization.yAxisLabel,
+                                        preparedVisualization.xAxisDataKey,
+                                        preparedVisualization.yAxisDataKey
+                                    )}
                                     cursor={{ fill: "var(--primary-soft)" }}
                                 />
 
@@ -551,7 +576,7 @@ export function InteractiveChart({
                                 />
 
                                 <Bar
-                                    dataKey={selectedYAxis}
+                                    dataKey={preparedVisualization.yAxisDataKey}
                                     fill="var(--primary)"
                                     radius={[6, 6, 0, 0]}
                                     animationDuration={150}
@@ -569,23 +594,29 @@ export function InteractiveChart({
                                 />
 
                                 <XAxis
-                                    dataKey={selectedXAxis}
-                                    type="number"
+                                    dataKey={preparedVisualization.xAxisDataKey}
+                                    type={preparedVisualization.scatterXAxisType}
                                     tick={{ fill: "var(--text-muted)", fontSize: 12 }}
                                     tickLine={false}
                                     axisLine={{ stroke: "var(--border)" }}
                                 />
 
                                 <YAxis
-                                    dataKey={selectedYAxis}
-                                    type="number"
+                                    dataKey={preparedVisualization.yAxisDataKey}
+                                    type={preparedVisualization.scatterYAxisType}
                                     tick={{ fill: "var(--text-muted)", fontSize: 12 }}
                                     tickLine={false}
                                     axisLine={{ stroke: "var(--border)" }}
                                 />
 
                                 <Tooltip
-                                    content={(tooltipProps) => renderTooltipContent(tooltipProps, selectedXAxis, selectedYAxis)}
+                                    content={(tooltipProps) => renderTooltipContent(
+                                        tooltipProps,
+                                        preparedVisualization.xAxisLabel,
+                                        preparedVisualization.yAxisLabel,
+                                        preparedVisualization.xAxisDataKey,
+                                        preparedVisualization.yAxisDataKey
+                                    )}
                                     cursor={{ stroke: "var(--primary)", strokeDasharray: "4 4" }}
                                 />
 
@@ -598,8 +629,8 @@ export function InteractiveChart({
                                 />
 
                                 <Scatter
-                                    data={visibleChartData}
-                                    dataKey={selectedYAxis}
+                                    data={preparedChartData}
+                                    dataKey={preparedVisualization.yAxisDataKey}
                                     fill="var(--primary)"
                                     animationDuration={150}
                                 />
@@ -610,7 +641,7 @@ export function InteractiveChart({
                     <div className="chart-empty-state">
                         <h4>Unable to visualize selected fields</h4>
                         <p>
-                            {chartValidation.message}
+                            {preparedVisualization.message}
                         </p>
                         <span>Try:</span>
                         <ul>
@@ -640,10 +671,12 @@ export function InteractiveChart({
             </div>
 
             <footer className="chart-summary-footer">
-                <span>{visibleChartData.length} data points</span>
+                <span>{preparedVisualization.rowsPlotted.toLocaleString()} rows plotted</span>
+                <span>{preparedVisualization.rowsSkipped.toLocaleString()} rows skipped</span>
                 <span>{visualizationLabel} visualization</span>
-                <span>X axis: {selectedXAxis}</span>
-                <span>Y axis: {selectedYAxis}</span>
+                <span>Mode: {preparedVisualization.visualizationType.replaceAll("_", " ")}</span>
+                <span>X axis: {preparedVisualization.xAxisLabel}</span>
+                <span>Y axis: {preparedVisualization.yAxisLabel}</span>
             </footer>
 
             <section className="visible-rows-panel" aria-label="Visible rows">
