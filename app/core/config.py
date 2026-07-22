@@ -14,6 +14,8 @@ class Settings(BaseSettings):
 
     gemini_api_key: str = Field(alias="GEMINI_API_KEY")
 
+    frontend_origins: str = Field(default="", alias="FRONTEND_ORIGINS")
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

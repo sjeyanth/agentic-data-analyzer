@@ -107,6 +107,7 @@ APP_NAME=Agentic Manufacturing Intelligence Platform
 ENVIRONMENT=development
 DATABASE_URL=postgresql://username:password@localhost:5432/database_name
 GEMINI_API_KEY=your_gemini_api_key
+FRONTEND_ORIGINS=http://localhost:5173
 ```
 
 Create the database tables and start FastAPI:
@@ -129,7 +130,9 @@ Copy `.env.example` to `.env`, then start Vite:
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` and the API runs at `http://127.0.0.1:8000`.
+For production, set `VITE_API_BASE_URL=https://agentic-data-analyzer.onrender.com` in the frontend deployment environment. If the frontend is deployed on a separate domain, set `FRONTEND_ORIGINS` on the backend to that domain so CORS allows requests from it.
+
+The frontend runs at `http://localhost:5173` and the API runs at `http://127.0.0.1:8000` in local development.
 
 ## API Endpoints
 
