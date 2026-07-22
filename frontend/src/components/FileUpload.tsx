@@ -18,22 +18,21 @@ interface SampleDataset {
 
 const SAMPLE_DATASETS: SampleDataset[] = [
   {
-    label: "Test Data 1",
-    fileName: "testdata1.csv",
-    description: "Temperature, pressure, and vibration readings from production equipment.",
+    label: "Car Brake Manufacturing Dataset",
+    fileName: "car_brake_manufacturing_data.csv",
+    description: "Car brake manufacturing dataset for sample analysis.",
     icon: "file",
   },
   {
-    label: "Test Data (Large no.of fields)",
-    fileName: "testdata2.csv",
-    description: "Infrastructure telemetry with CPU, memory, disk, and latency metrics.",
+    label: "Car Manufacturing Dataset",
+    fileName: "car_manufacturing_demo_500.csv",
+    description: "Car manufacturing demo dataset with 500 rows for interactive analysis.",
     icon: "file",
   },
-
   {
-    label: "Data with Quality Issues",
-    fileName: "manufacturing_quality_issues.csv",
-    description: "Manufacturing sensor data with missing values, duplicates, outliers, and blanks.",
+    label: "Model Details Dataset",
+    fileName: "model_details.csv",
+    description: "Model details dataset for interactive analysis.",
     icon: "file",
   },
 ];

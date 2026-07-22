@@ -1,0 +1,201 @@
+Production_Date,Car_Model,Manufacturing_Plant,Supplier,Brake_Type,Rotor_Diameter_mm,Friction_Coefficient,Material_Cost_USD,Defect_Rate_Per_1000,Stopping_Distance_100_0_kmh_m
+2025-01-01,X7,Dingolfing,Continental,Ventilated Disc,355.2,0.402,421.1,2.47,39.7
+2025-01-01,i4,Munich,Brembo,Ventilated Disc,348.1,0.428,433.61,1.04,35.9
+2025-01-01,3 Series,Spartanburg,Continental,Solid Disc,322.4,0.318,177.86,1.95,39.0
+2025-01-04,3 Series,Dingolfing,ZF TRW,Ventilated Disc,347.7,0.421,398.46,2.33,34.4
+2025-01-05,3 Series,Regensburg,ZF TRW,Solid Disc,303.5,0.409,169.91,2.63,35.4
+2025-01-07,5 Series,Regensburg,Continental,Solid Disc,301.7,0.364,171.97,1.22,37.2
+2025-01-07,iX,Dingolfing,ZF TRW,Ventilated Disc,350.5,0.365,494.09,1.66,37.2
+2025-01-09,X7,Munich,Bosch,Ventilated Disc,358.4,0.357,421.73,4.55,37.9
+2025-01-10,i4,Dingolfing,Brembo,Solid Disc,310.6,0.351,181.22,0.87,36.9
+2025-01-10,3 Series,Leipzig,Bosch,Solid Disc,310.2,0.293,177.66,1.81,40.3
+2025-01-10,5 Series,Regensburg,Bosch,Ventilated Disc,365.5,0.35,545.27,2.13,35.3
+2025-01-17,3 Series,Munich,ZF TRW,Ventilated Disc,344.6,0.41,431.66,2.39,37.0
+2025-01-18,X5,Dingolfing,ZF TRW,Ventilated Disc,341.6,0.394,414.83,1.5,41.1
+2025-01-21,iX,Leipzig,Bosch,Ventilated Disc,354.5,0.379,316.38,0.45,37.0
+2025-01-25,X7,Munich,Bosch,Ventilated Disc,386.6,0.387,432.91,3.4,38.6
+2025-01-25,M3,Dingolfing,Continental,Carbon Ceramic,387.8,0.479,1188.69,0.55,34.1
+2025-01-27,i4,Spartanburg,Bosch,Ventilated Disc,330.2,0.406,412.0,3.51,36.7
+2025-01-28,M3,Regensburg,Continental,Ventilated Disc,332.7,0.377,383.62,2.03,36.6
+2025-01-28,X7,Regensburg,Bosch,Ventilated Disc,366.6,0.329,488.57,1.69,37.0
+2025-01-30,5 Series,Dingolfing,Continental,Solid Disc,313.1,0.358,222.56,2.2,41.9
+2025-02-02,M3,Leipzig,ZF TRW,Carbon Ceramic,388.4,0.46,1256.09,0.79,33.1
+2025-02-06,3 Series,Spartanburg,ZF TRW,Ventilated Disc,351.1,0.367,410.97,2.29,36.7
+2025-02-07,M5,Regensburg,ZF TRW,Carbon Ceramic,396.2,0.445,1269.2,2.36,33.1
+2025-02-08,M5,Leipzig,Bosch,Ventilated Disc,356.7,0.441,417.94,3.52,34.0
+2025-02-10,X5,Spartanburg,ZF TRW,Ventilated Disc,374.9,0.355,350.68,0.15,39.7
+2025-02-10,X5,Dingolfing,Brembo,Ventilated Disc,362.3,0.407,461.88,1.29,38.8
+2025-02-12,X7,Leipzig,ZF TRW,Ventilated Disc,353.3,0.378,425.76,1.96,36.6
+2025-02-19,M3,Munich,ZF TRW,Carbon Ceramic,384.3,0.461,1187.82,2.6,34.0
+2025-02-20,X5,Dingolfing,Brembo,Ventilated Disc,358.9,0.422,407.82,1.39,38.2
+2025-02-21,5 Series,Spartanburg,Brembo,Carbon Ceramic,382.0,0.421,1246.91,0.6,35.1
+2025-02-24,M5,Spartanburg,Continental,Carbon Ceramic,403.9,0.44,1269.79,1.58,32.5
+2025-02-24,3 Series,Dingolfing,Continental,Solid Disc,294.7,0.406,249.9,1.59,38.0
+2025-02-25,X7,Regensburg,ZF TRW,Ventilated Disc,356.2,0.368,263.36,2.81,39.4
+2025-02-27,X5,Munich,ZF TRW,Ventilated Disc,360.3,0.348,400.0,4.0,37.1
+2025-02-27,M5,Spartanburg,ZF TRW,Carbon Ceramic,385.2,0.442,1286.71,0.67,32.9
+2025-02-28,iX,Spartanburg,ZF TRW,Ventilated Disc,335.3,0.396,440.81,3.34,38.4
+2025-03-03,X5,Munich,Continental,Ventilated Disc,327.7,0.413,427.83,2.12,38.0
+2025-03-04,i4,Regensburg,ZF TRW,Ventilated Disc,349.1,0.398,340.66,1.89,35.0
+2025-03-08,M3,Munich,Continental,Carbon Ceramic,375.1,0.46,1349.69,0.2,30.7
+2025-03-14,i4,Regensburg,ZF TRW,Ventilated Disc,338.1,0.454,425.49,3.53,35.4
+2025-03-15,M3,Dingolfing,Brembo,Carbon Ceramic,396.9,0.437,1221.69,0.86,32.6
+2025-03-19,M5,Leipzig,ZF TRW,Ventilated Disc,351.4,0.403,451.34,1.98,36.1
+2025-03-19,iX,Dingolfing,Continental,Ventilated Disc,348.7,0.359,442.02,1.63,38.9
+2025-03-25,X5,Munich,Bosch,Ventilated Disc,370.7,0.361,409.99,3.07,37.9
+2025-03-27,M5,Spartanburg,Continental,Ventilated Disc,365.6,0.4,372.33,0.88,32.9
+2025-03-30,M5,Leipzig,Bosch,Carbon Ceramic,392.8,0.444,1328.99,1.69,31.5
+2025-04-03,X7,Spartanburg,Continental,Ventilated Disc,351.5,0.349,533.2,1.46,37.5
+2025-04-05,M3,Spartanburg,ZF TRW,Carbon Ceramic,385.3,0.449,1276.09,3.66,32.0
+2025-04-06,M3,Munich,Brembo,Carbon Ceramic,386.5,0.463,1276.71,1.73,33.1
+2025-04-08,M3,Regensburg,Continental,Carbon Ceramic,384.0,0.437,1384.13,0.57,33.6
+2025-04-09,i4,Munich,Bosch,Solid Disc,320.4,0.397,137.17,3.61,37.8
+2025-04-11,5 Series,Leipzig,Continental,Solid Disc,316.5,0.399,232.11,2.55,35.0
+2025-04-12,5 Series,Leipzig,Bosch,Carbon Ceramic,398.0,0.455,1224.76,3.01,34.4
+2025-04-12,M3,Munich,ZF TRW,Carbon Ceramic,373.8,0.483,1357.14,0.56,34.1
+2025-04-13,i4,Regensburg,Continental,Ventilated Disc,376.3,0.407,418.22,1.82,35.5
+2025-04-13,X5,Spartanburg,ZF TRW,Ventilated Disc,348.2,0.425,534.27,3.53,37.5
+2025-04-14,iX,Dingolfing,ZF TRW,Ventilated Disc,339.2,0.399,431.27,2.71,37.2
+2025-04-16,X7,Spartanburg,ZF TRW,Ventilated Disc,347.5,0.399,424.97,2.97,37.2
+2025-04-18,X5,Spartanburg,ZF TRW,Ventilated Disc,357.5,0.429,387.74,2.56,36.7
+2025-04-18,M3,Spartanburg,Bosch,Carbon Ceramic,386.4,0.445,1160.69,2.62,34.6
+2025-04-19,5 Series,Munich,Brembo,Ventilated Disc,335.7,0.395,404.21,1.73,36.6
+2025-04-24,X5,Spartanburg,Continental,Ventilated Disc,357.8,0.384,379.13,0.28,37.1
+2025-04-25,M3,Leipzig,Continental,Carbon Ceramic,390.9,0.468,1207.0,2.89,31.7
+2025-04-26,X7,Leipzig,ZF TRW,Ventilated Disc,356.2,0.372,463.59,2.15,37.6
+2025-05-01,M5,Munich,Continental,Ventilated Disc,360.8,0.377,365.35,1.85,33.8
+2025-05-04,3 Series,Leipzig,ZF TRW,Carbon Ceramic,385.0,0.468,1293.69,1.16,33.9
+2025-05-06,3 Series,Regensburg,ZF TRW,Ventilated Disc,343.0,0.427,503.74,1.79,34.4
+2025-05-06,5 Series,Dingolfing,Brembo,Ventilated Disc,335.1,0.399,417.1,1.08,35.4
+2025-05-08,X7,Munich,Bosch,Ventilated Disc,362.9,0.369,472.14,2.87,39.2
+2025-05-11,iX,Leipzig,ZF TRW,Ventilated Disc,346.6,0.374,323.72,4.8,38.7
+2025-05-16,M3,Dingolfing,ZF TRW,Ventilated Disc,343.3,0.382,392.97,2.92,34.6
+2025-05-16,M5,Regensburg,Continental,Carbon Ceramic,397.0,0.452,1299.57,3.48,33.4
+2025-05-22,5 Series,Munich,ZF TRW,Carbon Ceramic,385.2,0.508,1301.5,3.52,33.6
+2025-05-29,5 Series,Munich,Bosch,Ventilated Disc,337.5,0.4,397.71,1.39,35.0
+2025-05-30,3 Series,Leipzig,Brembo,Solid Disc,297.6,0.305,195.14,1.13,38.4
+2025-05-30,X5,Leipzig,Brembo,Ventilated Disc,338.7,0.386,411.49,0.22,37.4
+2025-05-31,X5,Spartanburg,Brembo,Ventilated Disc,350.9,0.382,469.33,0.66,38.8
+2025-06-01,X7,Spartanburg,Brembo,Ventilated Disc,364.0,0.389,447.47,1.84,38.1
+2025-06-01,3 Series,Regensburg,Continental,Ventilated Disc,340.6,0.416,437.26,2.34,36.5
+2025-06-03,iX,Spartanburg,Brembo,Ventilated Disc,321.6,0.378,358.87,2.13,36.8
+2025-06-05,X7,Munich,Brembo,Ventilated Disc,350.8,0.382,404.28,1.39,40.5
+2025-06-05,i4,Leipzig,Brembo,Ventilated Disc,339.4,0.402,400.77,1.46,38.3
+2025-06-07,M3,Leipzig,Bosch,Carbon Ceramic,409.1,0.47,1434.34,2.51,33.8
+2025-06-07,5 Series,Dingolfing,Bosch,Ventilated Disc,319.2,0.388,423.68,2.24,36.6
+2025-06-09,3 Series,Spartanburg,Brembo,Ventilated Disc,337.4,0.426,473.51,0.78,34.8
+2025-06-09,i4,Leipzig,Brembo,Solid Disc,309.3,0.352,192.16,0.73,35.0
+2025-06-10,X7,Dingolfing,ZF TRW,Ventilated Disc,358.5,0.437,387.85,1.43,38.6
+2025-06-10,5 Series,Dingolfing,Brembo,Solid Disc,319.4,0.339,201.15,0.46,38.1
+2025-06-14,5 Series,Regensburg,Brembo,Solid Disc,319.5,0.397,193.49,0.82,38.2
+2025-06-15,5 Series,Spartanburg,ZF TRW,Ventilated Disc,343.9,0.392,466.04,1.5,33.8
+2025-06-19,iX,Dingolfing,Bosch,Ventilated Disc,349.1,0.386,423.59,2.11,38.0
+2025-06-20,X5,Spartanburg,Brembo,Ventilated Disc,345.9,0.378,464.83,0.99,36.1
+2025-06-21,M3,Munich,Continental,Carbon Ceramic,378.3,0.455,984.48,1.6,32.6
+2025-06-22,3 Series,Spartanburg,ZF TRW,Ventilated Disc,345.0,0.429,492.92,2.96,34.3
+2025-06-27,3 Series,Dingolfing,Bosch,Ventilated Disc,365.6,0.378,454.73,1.11,32.6
+2025-06-28,5 Series,Leipzig,Brembo,Solid Disc,303.2,0.336,210.03,0.7,34.9
+2025-07-03,M5,Leipzig,Bosch,Ventilated Disc,364.7,0.392,418.25,1.8,34.4
+2025-07-03,iX,Dingolfing,Continental,Ventilated Disc,328.9,0.346,511.45,1.16,39.8
+2025-07-06,X7,Spartanburg,Bosch,Ventilated Disc,347.6,0.38,474.81,2.84,37.5
+2025-07-07,iX,Munich,Brembo,Ventilated Disc,360.1,0.411,442.61,1.97,39.2
+2025-07-07,M3,Spartanburg,Continental,Ventilated Disc,341.4,0.373,419.1,2.89,37.4
+2025-07-09,X7,Dingolfing,Continental,Ventilated Disc,355.8,0.437,401.58,1.16,37.2
+2025-07-11,M3,Munich,ZF TRW,Carbon Ceramic,396.6,0.458,1212.69,2.47,35.8
+2025-07-12,3 Series,Spartanburg,Continental,Ventilated Disc,351.7,0.376,388.32,2.14,36.1
+2025-07-14,5 Series,Munich,Continental,Solid Disc,323.7,0.358,203.96,2.5,39.1
+2025-07-14,X5,Regensburg,ZF TRW,Ventilated Disc,360.7,0.368,318.94,0.91,37.8
+2025-07-15,X7,Spartanburg,Brembo,Ventilated Disc,345.6,0.344,360.09,0.65,38.6
+2025-07-15,X5,Leipzig,Bosch,Ventilated Disc,358.6,0.349,395.96,1.51,38.7
+2025-07-17,X5,Spartanburg,Continental,Ventilated Disc,337.0,0.362,408.27,1.8,37.8
+2025-07-19,X7,Dingolfing,ZF TRW,Ventilated Disc,362.4,0.407,477.8,3.73,39.0
+2025-07-19,iX,Leipzig,ZF TRW,Ventilated Disc,349.1,0.375,517.08,2.77,38.9
+2025-07-20,5 Series,Leipzig,Bosch,Ventilated Disc,332.5,0.371,360.35,2.46,34.9
+2025-07-21,iX,Spartanburg,Brembo,Ventilated Disc,340.1,0.372,388.82,1.05,39.1
+2025-07-23,X5,Leipzig,Bosch,Ventilated Disc,367.4,0.372,477.01,3.2,38.5
+2025-07-23,i4,Spartanburg,Bosch,Solid Disc,313.5,0.41,183.32,1.12,40.1
+2025-07-29,i4,Munich,Brembo,Ventilated Disc,331.8,0.349,374.46,1.24,36.5
+2025-07-30,M5,Leipzig,Brembo,Carbon Ceramic,396.6,0.467,1329.78,1.15,33.8
+2025-07-30,M5,Leipzig,Brembo,Carbon Ceramic,393.4,0.467,1311.87,1.15,36.0
+2025-08-01,M3,Spartanburg,Bosch,Carbon Ceramic,389.4,0.456,1195.38,2.67,31.5
+2025-08-02,X7,Munich,ZF TRW,Ventilated Disc,344.2,0.427,414.96,3.36,36.7
+2025-08-03,X7,Munich,Brembo,Ventilated Disc,368.3,0.357,427.92,0.67,38.2
+2025-08-04,M3,Regensburg,Bosch,Carbon Ceramic,399.3,0.453,1192.7,4.49,32.2
+2025-08-05,M3,Spartanburg,Bosch,Carbon Ceramic,397.6,0.44,1253.49,2.31,33.7
+2025-08-06,X7,Leipzig,Bosch,Ventilated Disc,345.7,0.346,363.99,3.09,39.8
+2025-08-06,i4,Dingolfing,Bosch,Ventilated Disc,351.8,0.356,388.3,2.08,35.1
+2025-08-07,M3,Dingolfing,Brembo,Carbon Ceramic,392.0,0.431,1230.26,1.58,34.1
+2025-08-10,M5,Dingolfing,Brembo,Ventilated Disc,343.2,0.394,376.55,2.52,35.4
+2025-08-11,X7,Dingolfing,Brembo,Ventilated Disc,349.6,0.407,454.68,1.2,37.2
+2025-08-12,i4,Regensburg,Continental,Carbon Ceramic,398.3,0.453,1240.52,1.23,32.8
+2025-08-13,X5,Spartanburg,Bosch,Ventilated Disc,365.6,0.351,362.53,2.39,39.5
+2025-08-14,3 Series,Leipzig,Continental,Ventilated Disc,334.3,0.388,383.29,1.99,35.9
+2025-08-14,3 Series,Spartanburg,Continental,Solid Disc,322.5,0.307,235.57,1.29,38.8
+2025-08-14,M5,Dingolfing,Bosch,Carbon Ceramic,383.4,0.474,1366.71,2.57,31.4
+2025-08-14,5 Series,Spartanburg,Bosch,Solid Disc,308.8,0.413,216.39,3.03,39.1
+2025-08-17,i4,Munich,Continental,Solid Disc,308.9,0.374,190.04,1.96,37.4
+2025-08-17,3 Series,Munich,Brembo,Ventilated Disc,336.6,0.435,391.79,0.92,36.3
+2025-08-18,M3,Spartanburg,ZF TRW,Carbon Ceramic,399.8,0.459,1371.07,2.18,32.5
+2025-08-27,X7,Spartanburg,ZF TRW,Ventilated Disc,347.5,0.411,321.35,2.53,36.8
+2025-08-29,3 Series,Spartanburg,ZF TRW,Ventilated Disc,328.8,0.431,383.83,2.0,37.5
+2025-08-31,i4,Regensburg,ZF TRW,Ventilated Disc,318.6,0.367,454.06,3.72,36.5
+2025-08-31,5 Series,Munich,Continental,Solid Disc,326.8,0.388,168.53,1.68,37.9
+2025-09-04,5 Series,Munich,Continental,Ventilated Disc,366.2,0.358,438.22,3.29,36.6
+2025-09-06,M5,Regensburg,Bosch,Carbon Ceramic,378.5,0.451,1230.85,2.41,30.7
+2025-09-06,3 Series,Leipzig,Bosch,Solid Disc,300.2,0.361,202.49,3.07,39.2
+2025-09-09,5 Series,Dingolfing,Bosch,Ventilated Disc,338.2,0.381,401.51,2.77,34.7
+2025-09-10,i4,Munich,Bosch,Ventilated Disc,345.5,0.384,414.95,3.18,36.2
+2025-09-11,3 Series,Regensburg,Brembo,Ventilated Disc,332.2,0.404,386.7,1.57,34.1
+2025-09-12,X5,Dingolfing,Brembo,Ventilated Disc,375.7,0.388,434.71,1.57,38.6
+2025-09-13,3 Series,Munich,ZF TRW,Carbon Ceramic,389.0,0.443,1324.03,3.44,33.8
+2025-09-16,X5,Regensburg,Brembo,Ventilated Disc,335.8,0.384,434.99,1.07,33.8
+2025-09-18,M3,Leipzig,Brembo,Carbon Ceramic,390.8,0.45,1273.58,1.8,32.4
+2025-09-21,M3,Dingolfing,Continental,Carbon Ceramic,393.2,0.446,1189.94,3.1,32.4
+2025-09-27,3 Series,Spartanburg,Brembo,Solid Disc,307.2,0.339,183.05,0.57,38.2
+2025-09-30,3 Series,Munich,ZF TRW,Carbon Ceramic,391.8,0.465,1061.61,3.59,33.6
+2025-10-07,M5,Dingolfing,Brembo,Carbon Ceramic,381.1,0.464,1132.87,1.38,33.9
+2025-10-09,3 Series,Spartanburg,Brembo,Ventilated Disc,337.5,0.403,421.17,1.29,34.6
+2025-10-10,X5,Munich,Bosch,Ventilated Disc,350.6,0.398,497.85,1.89,38.4
+2025-10-12,3 Series,Regensburg,Continental,Solid Disc,322.8,0.366,208.43,2.21,36.3
+2025-10-12,i4,Leipzig,Continental,Ventilated Disc,350.2,0.389,416.78,1.84,36.4
+2025-10-14,M3,Spartanburg,Brembo,Carbon Ceramic,389.6,0.473,1314.34,1.54,34.2
+2025-10-16,M5,Dingolfing,ZF TRW,Carbon Ceramic,385.6,0.461,1348.11,1.85,33.1
+2025-10-16,i4,Dingolfing,ZF TRW,Solid Disc,324.3,0.349,222.65,3.41,39.2
+2025-10-20,M3,Munich,Bosch,Carbon Ceramic,384.7,0.446,1063.87,3.17,33.5
+2025-10-22,iX,Dingolfing,Bosch,Ventilated Disc,358.6,0.373,354.37,1.74,37.8
+2025-10-30,X7,Leipzig,Continental,Ventilated Disc,362.5,0.372,349.34,1.75,37.7
+2025-10-31,iX,Munich,ZF TRW,Ventilated Disc,335.7,0.396,428.31,1.39,38.9
+2025-11-04,M5,Leipzig,Bosch,Carbon Ceramic,394.2,0.472,1076.91,2.38,33.9
+2025-11-10,X5,Spartanburg,Brembo,Ventilated Disc,362.0,0.335,450.9,1.24,39.4
+2025-11-10,iX,Spartanburg,ZF TRW,Ventilated Disc,365.3,0.417,393.92,3.36,38.1
+2025-11-10,5 Series,Regensburg,Brembo,Carbon Ceramic,384.6,0.441,1353.99,1.54,34.8
+2025-11-13,3 Series,Dingolfing,ZF TRW,Ventilated Disc,351.7,0.403,375.64,1.79,34.9
+2025-11-15,3 Series,Munich,Brembo,Carbon Ceramic,374.5,0.434,1129.26,1.12,33.7
+2025-11-15,M3,Dingolfing,Bosch,Carbon Ceramic,394.1,0.475,1224.32,2.83,34.5
+2025-11-16,3 Series,Regensburg,Bosch,Solid Disc,314.6,0.345,197.1,2.33,39.0
+2025-11-16,M5,Regensburg,Brembo,Carbon Ceramic,377.4,0.449,1279.65,0.61,32.9
+2025-11-19,i4,Dingolfing,ZF TRW,Ventilated Disc,336.4,0.414,422.86,0.54,37.0
+2025-11-21,X7,Spartanburg,ZF TRW,Ventilated Disc,337.8,0.354,484.86,2.51,39.4
+2025-11-21,5 Series,Regensburg,ZF TRW,Ventilated Disc,370.9,0.385,475.43,3.16,34.7
+2025-11-21,iX,Spartanburg,Bosch,Ventilated Disc,316.1,0.384,373.9,3.97,36.5
+2025-11-23,M5,Regensburg,ZF TRW,Carbon Ceramic,391.9,0.463,1305.91,2.07,34.2
+2025-11-24,5 Series,Dingolfing,Continental,Ventilated Disc,366.2,0.407,477.11,1.82,39.3
+2025-11-28,M5,Regensburg,ZF TRW,Carbon Ceramic,383.3,0.429,1248.65,1.29,32.5
+2025-12-03,M3,Munich,Brembo,Ventilated Disc,329.2,0.372,379.19,0.46,35.6
+2025-12-04,X7,Spartanburg,Bosch,Ventilated Disc,355.8,0.412,429.84,1.08,36.8
+2025-12-04,M5,Regensburg,Continental,Carbon Ceramic,377.6,0.434,1256.86,1.16,33.5
+2025-12-06,X5,Dingolfing,Continental,Ventilated Disc,386.2,0.373,390.73,1.61,36.2
+2025-12-08,i4,Leipzig,ZF TRW,Solid Disc,304.9,0.274,211.17,2.01,35.4
+2025-12-08,i4,Regensburg,ZF TRW,Ventilated Disc,337.9,0.41,457.14,2.52,37.1
+2025-12-11,M3,Dingolfing,Bosch,Carbon Ceramic,388.8,0.427,1118.77,2.75,31.7
+2025-12-11,M5,Leipzig,Brembo,Carbon Ceramic,393.0,0.454,1026.56,1.36,31.8
+2025-12-12,iX,Munich,Continental,Ventilated Disc,373.6,0.382,384.75,0.94,39.0
+2025-12-16,M5,Leipzig,Bosch,Carbon Ceramic,389.9,0.457,1086.2,2.31,32.8
+2025-12-18,i4,Leipzig,Bosch,Ventilated Disc,351.0,0.406,377.77,1.91,35.8
+2025-12-21,5 Series,Dingolfing,Bosch,Solid Disc,318.7,0.316,206.65,3.31,40.1
+2025-12-26,i4,Leipzig,Brembo,Ventilated Disc,350.7,0.367,481.58,0.19,35.4
+2025-12-27,X5,Regensburg,Brembo,Ventilated Disc,340.9,0.342,484.97,1.58,39.0
+2025-12-27,i4,Munich,ZF TRW,Ventilated Disc,344.3,0.394,447.81,3.39,36.1
+2025-12-28,5 Series,Regensburg,Continental,Solid Disc,311.6,0.399,156.57,1.39,37.9
+2025-12-30,iX,Spartanburg,Bosch,Ventilated Disc,335.4,0.33,427.69,3.96,37.4
+2025-12-30,i4,Leipzig,Continental,Solid Disc,292.4,0.342,150.17,1.97,40.0

@@ -137,7 +137,7 @@ function App() {
 
           {analysisNotice && (
             <div className="quota-notice" id="analysis-notice" role="status" aria-live="polite">
-              <strong>Notice</strong>
+              <strong>NOTE :</strong>
               <div>{analysisNotice}</div>
             </div>
           )}

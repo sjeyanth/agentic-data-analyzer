@@ -316,22 +316,24 @@
   gap: 6px;
   margin-top: 16px;
   padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, var(--warning, #d39b2b) 34%, var(--border));
+  border: 1px solid color-mix(in srgb, var(--danger) 42%, var(--border));
   border-radius: 12px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--warning, #d39b2b) 8%, transparent), transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--danger) 10%, transparent), transparent),
     var(--surface-soft);
-  color: var(--text);
+  color: color-mix(in srgb, var(--danger) 78%, var(--text));
+  scroll-margin-top: 105px;
 }
 
 .quota-notice strong {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.2px;
+  color: var(--danger);
 }
 
 .quota-notice div {
-  color: var(--text-muted);
+  color: color-mix(in srgb, var(--danger) 72%, var(--text-muted));
   font-size: 12px;
   line-height: 1.65;
 }
