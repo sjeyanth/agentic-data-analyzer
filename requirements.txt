@@ -16,6 +16,8 @@ langchain
 google-api-core
 google-generativeai
 
+python-multipart
+
 python-dotenv
 
 pytest
