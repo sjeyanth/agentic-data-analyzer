@@ -13,6 +13,9 @@ numpy
 langgraph
 langchain
 
+google-api-core
+google-generativeai
+
 python-dotenv
 
 pytest

@@ -1,8 +1,11 @@
 import json
 
-from google.api_core.exceptions import ResourceExhausted
-
-import google.generativeai as genai
+try:
+    from google.api_core.exceptions import ResourceExhausted
+    import google.generativeai as genai
+except ImportError:
+    ResourceExhausted = Exception
+    genai = None
 
 from app.core.config import settings
 
@@ -13,6 +16,10 @@ class GeminiService:
     """
 
     def __init__(self):
+        self.model = None
+
+        if genai is None:
+            return
 
         genai.configure(
             api_key=settings.gemini_api_key
@@ -80,6 +87,16 @@ class GeminiService:
               "Multiple affected metrics contain anomalies, suggesting the dataset includes related deviations rather than isolated noise."
             ]
             """
+
+            if self.model is None:
+                return self._fallback_insights(
+                    data_quality=data_quality,
+                    summary=summary,
+                    anomalies=anomalies,
+                    risk_level=risk_level,
+                    analysis_meta=analysis_meta,
+                    reason="fallback"
+                )
 
             try:
                 response = self.model.generate_content(
@@ -164,6 +181,15 @@ class GeminiService:
             ]
             """
 
+            if self.model is None:
+                return self._fallback_recommendations(
+                    summary=summary,
+                    anomalies=anomalies,
+                    insights=insights,
+                    analysis_meta=analysis_meta,
+                    reason="fallback"
+                )
+
             try:
                 response = self.model.generate_content(
                     prompt
@@ -220,6 +246,16 @@ class GeminiService:
         HIGH
         CRITICAL
         """
+
+        if self.model is None:
+            self._mark_analysis_fallback(
+                analysis_meta=analysis_meta,
+                reason="fallback"
+            )
+            return self._fallback_risk_level(
+                anomalies=anomalies,
+                recommendations=recommendations
+            )
 
         try:
             response = self.model.generate_content(
@@ -304,6 +340,14 @@ class GeminiService:
         Keep it professional and business-focused.
         Return only the executive summary text.
         """
+
+        if self.model is None:
+            return self._fallback_executive_summary(
+                summary=summary,
+                insights=insights,
+                recommendations=recommendations,
+                risk_level=risk_level
+            )
 
         try:
             response = self.model.generate_content(
