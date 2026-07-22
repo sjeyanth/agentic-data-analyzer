@@ -2,9 +2,16 @@
 
 ## Overview
 
-The Data Analyser Platform analyzes structured CSV datasets through a multi-agent LangGraph workflow. It validates data quality, generates dataset summaries, detects anomalies, produces AI-powered insights and recommendations, creates executive summaries, and stores structured reports in PostgreSQL JSONB for display in an interactive dashboard.
+The Data Analyser Platform is a AI supportedd Full-Stack CSV  data analysis system built around a multi-agent LangGraph workflow. It validates data quality, generates dataset summaries, detects anomalies, produces AI-powered insights, recommendations, and executive summaries, and stores structured reports in PostgreSQL JSONB for display in an interactive dashboard. 
 
 Although originally designed for manufacturing analytics, the platform now supports generic tabular datasets across domains such as manufacturing, server monitoring, finance, retail, IoT, healthcare, and logistics.
+
+The project is now deployed as two separate services:
+
+- Backend API on Render
+- Frontend UI on Netlify
+
+The frontend communicates with the Render backend through a configurable API base URL, and the backend allows the deployed frontend origin through CORS.
 
 ## Features
 
@@ -20,6 +27,8 @@ Although originally designed for manufacturing analytics, the platform now suppo
 - PostgreSQL JSONB storage for structured data quality, summary, anomaly, insight, and recommendation outputs
 - Interactive charts that automatically visualize uploaded datasets
 - Responsive React dashboard with light and dark themes
+- Separate frontend/backend production deployment support
+- Graceful fallback analysis when Gemini is unavailable or quota-limited
 
 ## Architecture
 
@@ -46,6 +55,7 @@ The dashboard presents each report in a focused sequence: Executive Summary, Dat
 - Python
 - FastAPI
 - SQLAlchemy
+- Alembic
 - PostgreSQL
 - LangGraph
 - Gemini API
@@ -62,6 +72,8 @@ The dashboard presents each report in a focused sequence: Executive Summary, Dat
 
 ```text
 Agentic_AI-CSV/
+├── alembic/             # Database migration environment
+├── alembic.ini          # Alembic configuration
 ├── app/
 │   ├── agents/          # LangGraph workflow and AI agents
 │   ├── api/             # FastAPI route handlers
@@ -83,6 +95,8 @@ Agentic_AI-CSV/
 ├── tests/               # Backend tests
 ├── uploads/             # Uploaded CSV files
 ├── create_tables.py     # Database table initialization
+├── netlify.toml         # Netlify frontend deployment config
+├── render.toml          # Render backend deployment config
 └── requirements.txt
 ```
 
@@ -110,7 +124,7 @@ GEMINI_API_KEY=your_gemini_api_key
 FRONTEND_ORIGINS=http://localhost:5173
 ```
 
-Create the database tables and start FastAPI:
+Create the database tables and start FastAPI locally:
 
 ```bash
 python create_tables.py
@@ -134,6 +148,51 @@ For production, set `VITE_API_BASE_URL=https://agentic-data-analyzer.onrender.co
 
 The frontend runs at `http://localhost:5173` and the API runs at `http://127.0.0.1:8000` in local development.
 
+## Production Deployment
+
+### Backend on Render
+
+Use a **Web Service** for the backend API.
+
+Recommended Render settings:
+
+- **Build Command:** `pip install -r requirements.txt`
+- **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- **Environment Variables:**
+    - `APP_NAME=Agentic Manufacturing Analyzer`
+    - `ENVIRONMENT=production`
+    - `DATABASE_URL=<your Render Postgres internal URL>`
+    - `GEMINI_API_KEY=<your Gemini key>`
+    - `FRONTEND_ORIGINS=https://thunderous-lamington-87bb52.netlify.app`
+
+Run database migrations against the production database before the app is used:
+
+```bash
+alembic upgrade head
+```
+
+If your Render plan does not support a pre-deploy hook, run the migration from the Render shell or temporarily include it in the startup flow.
+
+### Frontend on Netlify
+
+Use a **Static Site** for the React frontend.
+
+Recommended Netlify settings:
+
+- **Build Command:** `npm run build`
+- **Publish Directory:** `frontend/dist`
+- **Environment Variables:**
+    - `VITE_API_BASE_URL=https://agentic-data-analyzer.onrender.com`
+
+The frontend must point to the Render backend API URL, and the backend must whitelist the Netlify origin in `FRONTEND_ORIGINS`.
+
+### Deployment Notes
+
+- The backend now supports optional fallback analysis when Gemini is unavailable or rate-limited.
+- The backend requires `python-multipart` for CSV upload handling.
+- The backend uses Alembic migrations for the production PostgreSQL schema.
+- The Alembic environment is configured to load the `app` package correctly during deployment.
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
@@ -155,7 +214,4 @@ Stored reports include structured JSONB fields for `data_quality`, `summary`, `a
 - Predictive analytics and root cause analysis
 - Authentication and role-based access control
 - Report history, search, and filtering
-- Configurable anomaly detection strategies
-- Real-time analysis progress updates
-- Unit and integration testing
-- Containerized deployment and CI/CD
+
