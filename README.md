@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Data Analyser Platform is a AI supportedd Full-Stack CSV  data analysis system built around a multi-agent LangGraph workflow. It validates data quality, generates dataset summaries, detects anomalies, produces AI-powered insights, recommendations, and executive summaries, and stores structured reports in PostgreSQL JSONB for display in an interactive dashboard. 
+The Data Analyser Platform is a AI supported Full-Stack CSV  data analysis system built around a multi-agent LangGraph workflow. It validates data quality, generates dataset summaries, detects anomalies, produces AI-powered insights, recommendations, and executive summaries, and stores structured reports in PostgreSQL JSONB for display in an interactive dashboard. 
 
 Although originally designed for manufacturing analytics, the platform now supports generic tabular datasets across domains such as manufacturing, server monitoring, finance, retail, IoT, healthcare, and logistics.
 
