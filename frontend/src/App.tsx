@@ -73,28 +73,6 @@ function App() {
     }
   }
 
-  async function fetchReportById(id: number) {
-    setIsLoading(true);
-    setError("");
-    setAnalysisNotice(null);
-
-    try {
-      const data = await getReport(id);
-      setReport(data);
-
-      const chartResponse = await getChartData(id);
-      setChartData(chartResponse.data);
-
-      window.setTimeout(() => {
-        document.getElementById("executive-summary")?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
-    } catch (err) {
-      setError(getErrorMessage(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   function navigateTo(target: string) {
     document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -107,8 +85,6 @@ function App() {
         <AppHeader
           onToggleTheme={toggleTheme}
           theme={theme}
-          reportId={report?.id ?? null}
-          onFetchReportById={fetchReportById}
         />
 
         <main className="dashboard-content">
