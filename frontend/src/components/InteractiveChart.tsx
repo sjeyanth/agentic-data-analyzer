@@ -391,6 +391,94 @@ export function InteractiveChart({
                     <h3> Data Visualization</h3>
                         <p>Explore your uploaded data with interactive charts.</p>
                 </div>
+
+                <div className="visible-rows-panel visible-rows-panel--header" aria-label="Visible rows">
+                    <div className="visible-rows-panel-top">
+                        <h4>Visible Rows</h4>
+
+                        <div className="visible-rows-status" aria-live="polite">
+                            Showing {visibleRowCount} of {totalRows} rows
+                        </div>
+                    </div>
+
+                    <div className="visible-rows-controls">
+                        <div className="visible-rows-inline">
+                            <div className="visible-rows-grid">
+                                <label className="chart-control-field visible-rows-field">
+                                    <span>Start</span>
+
+                                    <input
+                                        type="number"
+                                        min={totalRows > 0 ? 1 : 0}
+                                        max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                                        step={1}
+                                        value={visibleStart}
+                                        onChange={(event) =>
+                                            handleVisibleStartChange(event.target.valueAsNumber)
+                                        }
+                                        disabled={totalRows === 0}
+                                    />
+                                </label>
+
+                                <label className="chart-control-field visible-rows-field">
+                                    <span>End</span>
+
+                                    <input
+                                        type="number"
+                                        min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                                        max={totalRows}
+                                        step={1}
+                                        value={visibleEnd}
+                                        onChange={(event) =>
+                                            handleVisibleEndChange(event.target.valueAsNumber)
+                                        }
+                                        disabled={totalRows === 0}
+                                    />
+                                </label>
+                            </div>
+
+                            <div className="visible-rows-slider-wrap">
+                                <span className="visible-rows-slider-label">Adjust rows range using sliders</span>
+
+                                <div className="visible-rows-slider" aria-label="Visible rows range selector">
+                                    <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
+
+                                    <input
+                                        className={`visible-rows-slider-input ${activeVisibleThumb === "start" ? "visible-rows-slider-start active" : "visible-rows-slider-start"}`}
+                                        type="range"
+                                        min={totalRows > 0 ? 1 : 0}
+                                        max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
+                                        step={1}
+                                        value={visibleStart}
+                                        onPointerDown={() => setVisibleThumbActive("start")}
+                                        onFocus={() => setVisibleThumbActive("start")}
+                                        onBlur={clearVisibleThumbActive}
+                                        onChange={(event) =>
+                                            handleVisibleStartChange(event.target.valueAsNumber)
+                                        }
+                                        disabled={totalRows === 0}
+                                    />
+
+                                    <input
+                                        className={`visible-rows-slider-input ${activeVisibleThumb === "end" ? "visible-rows-slider-end active" : "visible-rows-slider-end"}`}
+                                        type="range"
+                                        min={totalRows > 0 ? Math.min(2, totalRows) : 0}
+                                        max={totalRows}
+                                        step={1}
+                                        value={visibleEnd}
+                                        onPointerDown={() => setVisibleThumbActive("end")}
+                                        onFocus={() => setVisibleThumbActive("end")}
+                                        onBlur={clearVisibleThumbActive}
+                                        onChange={(event) =>
+                                            handleVisibleEndChange(event.target.valueAsNumber)
+                                        }
+                                        disabled={totalRows === 0}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="interactive-chart-divider" />
@@ -480,7 +568,7 @@ export function InteractiveChart({
                         {chartType === "line" && (
                             <LineChart
                                 data={preparedChartData}
-                                margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
+                                margin={{ top: 16, right: 22, bottom: 12, left: 10 }}
                             >
                                 <CartesianGrid
                                     stroke="var(--chart-grid)"
@@ -516,7 +604,7 @@ export function InteractiveChart({
                                     wrapperStyle={{
                                         color: "var(--text-muted)",
                                         fontSize: 12,
-                                        paddingTop: 14,
+                                        paddingTop: 10,
                                     }}
                                 />
 
@@ -535,7 +623,7 @@ export function InteractiveChart({
                         {chartType === "bar" && (
                             <BarChart
                                 data={preparedChartData}
-                                margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
+                                margin={{ top: 16, right: 22, bottom: 12, left: 10 }}
                             >
                                 <CartesianGrid
                                     stroke="var(--chart-grid)"
@@ -571,7 +659,7 @@ export function InteractiveChart({
                                     wrapperStyle={{
                                         color: "var(--text-muted)",
                                         fontSize: 12,
-                                        paddingTop: 14,
+                                        paddingTop: 10,
                                     }}
                                 />
 
@@ -586,7 +674,7 @@ export function InteractiveChart({
 
                         {chartType === "scatter" && (
                             <ScatterChart
-                                margin={{ top: 24, right: 30, bottom: 18, left: 12 }}
+                                margin={{ top: 16, right: 22, bottom: 12, left: 10 }}
                             >
                                 <CartesianGrid
                                     stroke="var(--chart-grid)"
@@ -624,7 +712,7 @@ export function InteractiveChart({
                                     wrapperStyle={{
                                         color: "var(--text-muted)",
                                         fontSize: 12,
-                                        paddingTop: 14,
+                                        paddingTop: 10,
                                     }}
                                 />
 
@@ -678,95 +766,6 @@ export function InteractiveChart({
                 <span>X axis: {preparedVisualization.xAxisLabel}</span>
                 <span>Y axis: {preparedVisualization.yAxisLabel}</span>
             </footer>
-
-            <section className="visible-rows-panel" aria-label="Visible rows">
-                <div className="visible-rows-copy">
-                    <h4>Visible Rows</h4>
-                    <p>Filter the dataset before it is plotted.</p>
-                </div>
-
-                <div className="visible-rows-controls">
-                    <div className="visible-rows-status" aria-live="polite">
-                        Showing {visibleRowCount} of {totalRows} rows
-                    </div>
-
-                    <div className="visible-rows-inline">
-                        <div className="visible-rows-grid">
-                            <label className="chart-control-field visible-rows-field">
-                                <span>Start</span>
-
-                                <input
-                                    type="number"
-                                    min={totalRows > 0 ? 1 : 0}
-                                    max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
-                                    step={1}
-                                    value={visibleStart}
-                                    onChange={(event) =>
-                                        handleVisibleStartChange(event.target.valueAsNumber)
-                                    }
-                                    disabled={totalRows === 0}
-                                />
-                            </label>
-
-                            <label className="chart-control-field visible-rows-field">
-                                <span>End</span>
-
-                                <input
-                                    type="number"
-                                    min={totalRows > 0 ? Math.min(2, totalRows) : 0}
-                                    max={totalRows}
-                                    step={1}
-                                    value={visibleEnd}
-                                    onChange={(event) =>
-                                        handleVisibleEndChange(event.target.valueAsNumber)
-                                    }
-                                    disabled={totalRows === 0}
-                                />
-                            </label>
-                        </div>
-
-                        <div className="visible-rows-slider-wrap">
-                            <span className="visible-rows-slider-label">  .. Adjust Rows Range using sliders</span>
-
-                            <div className="visible-rows-slider" aria-label="Visible rows range selector">
-                            <div className="visible-rows-slider-track" style={visibleRangeTrackStyle} />
-
-                            <input
-                                className={`visible-rows-slider-input ${activeVisibleThumb === "start" ? "visible-rows-slider-start active" : "visible-rows-slider-start"}`}
-                                type="range"
-                                min={totalRows > 0 ? 1 : 0}
-                                max={totalRows > 0 ? Math.max(1, totalRows - 1) : 0}
-                                step={1}
-                                value={visibleStart}
-                                onPointerDown={() => setVisibleThumbActive("start")}
-                                onFocus={() => setVisibleThumbActive("start")}
-                                onBlur={clearVisibleThumbActive}
-                                onChange={(event) =>
-                                    handleVisibleStartChange(event.target.valueAsNumber)
-                                }
-                                disabled={totalRows === 0}
-                            />
-
-                            <input
-                                className={`visible-rows-slider-input ${activeVisibleThumb === "end" ? "visible-rows-slider-end active" : "visible-rows-slider-end"}`}
-                                type="range"
-                                min={totalRows > 0 ? Math.min(2, totalRows) : 0}
-                                max={totalRows}
-                                step={1}
-                                value={visibleEnd}
-                                onPointerDown={() => setVisibleThumbActive("end")}
-                                onFocus={() => setVisibleThumbActive("end")}
-                                onBlur={clearVisibleThumbActive}
-                                onChange={(event) =>
-                                    handleVisibleEndChange(event.target.valueAsNumber)
-                                }
-                                disabled={totalRows === 0}
-                            />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </section>
 
         

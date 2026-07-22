@@ -1212,8 +1212,8 @@
 
 .interactive-chart-card {
   display: grid;
-  gap: 22px;
-  padding: clamp(20px, 3vw, 28px);
+  gap: 10px;
+  padding: clamp(14px, 2vw, 18px);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
@@ -1228,8 +1228,79 @@
   gap: 18px;
 }
 
+.interactive-chart-header > div:first-child {
+  min-width: 0;
+  flex: 1 1 280px;
+}
+
+.visible-rows-panel--header {
+  width: min(100%, 620px);
+  margin-left: auto;
+  padding: 4px 8px;
+  align-self: center;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.02);
+}
+
+.visible-rows-panel--header .visible-rows-copy {
+  min-width: 0;
+}
+
+.visible-rows-panel--header .visible-rows-controls {
+  gap: 2px;
+}
+
+.visible-rows-panel--header .visible-rows-status {
+  padding: 2px 7px;
+  font-size: 7px;
+}
+
+.visible-rows-panel--header .visible-rows-inline {
+  grid-template-columns: minmax(110px, 150px) minmax(210px, 1fr);
+  gap: 6px;
+  align-items: center;
+}
+
+.visible-rows-panel--header .visible-rows-grid {
+  gap: 4px;
+}
+
+.visible-rows-panel--header .visible-rows-field input {
+  min-height: 28px;
+  padding: 0 7px;
+  font-size: 8px;
+}
+
+.visible-rows-panel--header .visible-rows-slider-wrap {
+  gap: 1px;
+}
+
+.visible-rows-panel--header .visible-rows-slider-label {
+  font-size: 6px;
+  white-space: nowrap;
+}
+
+.visible-rows-panel--header .visible-rows-slider {
+  min-width: 190px;
+  height: 14px;
+}
+
+.visible-rows-panel--header .visible-rows-slider-track {
+  height: 2px;
+}
+
+.visible-rows-panel--header .visible-rows-slider-input::-webkit-slider-thumb {
+  width: 11px;
+  height: 11px;
+  margin-top: -4.5px;
+}
+
+.visible-rows-panel--header .visible-rows-slider-input::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+}
+
 .interactive-chart-header h3 {
-  margin: 0 0 7px;
+  margin: 0 0 5px;
   font-family: Inter, "Segoe UI", sans-serif;
   font-size: clamp(17px, 2vw, 21px);
   line-height: 1.25;
@@ -1239,8 +1310,8 @@
 .interactive-chart-header p {
   margin: 0;
   color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .interactive-chart-divider {
@@ -1252,8 +1323,8 @@
 .chart-control-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  padding: 16px;
+  gap: 10px;
+  padding: 10px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-soft);
@@ -1262,7 +1333,7 @@
 .chart-control-field {
   display: grid;
   min-width: 0;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chart-control-field span {
@@ -1275,18 +1346,18 @@
 
 .chart-control-field select {
   width: 100%;
-  min-height: 44px;
-  padding: 0 38px 0 13px;
+  min-height: 40px;
+  padding: 0 34px 0 12px;
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--text);
   background:
-    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%) right 17px center / 6px 6px no-repeat,
-    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%) right 12px center / 6px 6px no-repeat,
+    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%) right 15px center / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%) right 10px center / 6px 6px no-repeat,
     var(--surface);
   cursor: pointer;
   appearance: none;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -1304,15 +1375,18 @@
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 14%, transparent);
 }
 
-.visible-rows-panel {
-  display: grid;
-  grid-template-columns: minmax(185px, 0.72fr) minmax(0, 1.28fr);
-  gap: 14px 18px;
+.visible-rows-panel-top {
+  display: flex;
   align-items: center;
-  padding: 11px 14px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.visible-rows-panel-top h4 {
+  margin: 0;
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-size: 10px;
+  letter-spacing: -0.15px;
 }
 
 .visible-rows-copy h4 {
@@ -1329,19 +1403,30 @@
   line-height: 1.5;
 }
 
+
 .visible-rows-controls {
   display: grid;
-  gap: 10px;
+  gap: 2px;
+}
+
+.visible-rows-panel--header .visible-rows-inline {
+  grid-template-columns: minmax(110px, 150px) minmax(210px, 1fr);
+  gap: 6px;
+  align-items: center;
+}
+
+.visible-rows-panel--header .visible-rows-grid {
+  gap: 4px;
 }
 
 .visible-rows-status {
   justify-self: start;
-  padding: 6px 12px;
+  padding: 2px 7px;
   border: 1px solid color-mix(in srgb, var(--border) 90%, var(--primary) 10%);
   border-radius: 999px;
   color: var(--text);
   background: var(--surface);
-  font-size: 11px;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: -0.1px;
   box-shadow: 0 1px 0 color-mix(in srgb, var(--primary) 16%, transparent);
@@ -1349,26 +1434,26 @@
 
 .visible-rows-inline {
   display: grid;
-  grid-template-columns: minmax(250px, 1fr) minmax(180px, 240px);
-  gap: 12px;
-  align-items: end;
+  grid-template-columns: minmax(110px, 150px) minmax(210px, 1fr);
+  gap: 6px;
+  align-items: center;
 }
 
 .visible-rows-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 10px;
+  gap: 4px;
 }
 
 .visible-rows-field input {
   width: 100%;
-  min-height: 40px;
-  padding: 0 12px;
+  min-height: 28px;
+  padding: 0 7px;
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--text);
   background: var(--surface);
-  font-size: 12px;
+  font-size: 8px;
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -1394,29 +1479,29 @@
 .visible-rows-slider {
   position: relative;
   width: 100%;
-  min-width: 180px;
-  height: 24px;
+  min-width: 190px;
+  height: 14px;
   margin-top: 0;
   border-radius: 999px;
 }
 
 .visible-rows-slider-wrap {
   display: grid;
-  gap: 6px;
+  gap: 1px;
 }
 
 .visible-rows-slider-label {
   color: var(--text-subtle);
-  font-size: 10px;
+  font-size: 6px;
   font-weight: 800;
-  letter-spacing: 0.9px;
+  letter-spacing: 0.7px;
   text-transform: uppercase;
 }
 
 .visible-rows-slider-track {
   position: absolute;
   inset: 50% 0 auto;
-  height: 4px;
+  height: 2px;
   transform: translateY(-50%);
   border-radius: 999px;
   background: var(--border);
@@ -1437,19 +1522,19 @@
 }
 
 .visible-rows-slider-input::-webkit-slider-runnable-track {
-  height: 4px;
+  height: 2px;
   background: transparent;
 }
 
 .visible-rows-slider-input::-moz-range-track {
-  height: 4px;
+  height: 2px;
   background: transparent;
 }
 
 .visible-rows-slider-input::-webkit-slider-thumb {
-  width: 15px;
-  height: 15px;
-  margin-top: -5.5px;
+  width: 10px;
+  height: 10px;
+  margin-top: -4px;
   border: 2px solid var(--surface);
   border-radius: 50%;
   background: var(--primary);
@@ -1460,8 +1545,8 @@
 }
 
 .visible-rows-slider-input::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   border: 2px solid var(--surface);
   border-radius: 50%;
   background: var(--primary);
@@ -1488,19 +1573,44 @@
 }
 
 @media (max-width: 860px) {
-  .visible-rows-panel {
+  .interactive-chart-header {
+    flex-direction: column;
+  }
+
+  .visible-rows-panel--header {
+    width: 100%;
+    margin-left: 0;
+    align-self: stretch;
+  }
+
+  .visible-rows-panel--header .visible-rows-slider-label {
+    white-space: normal;
+  }
+
+  .visible-rows-panel--header .visible-rows-grid {
     grid-template-columns: 1fr;
   }
 
-  .visible-rows-inline {
+  .visible-rows-panel--header .visible-rows-inline {
     grid-template-columns: 1fr;
+  }
+
+  .chart-visualization {
+    height: 360px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 1120px) {
+  .chart-control-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .chart-visualization {
   width: 100%;
-  height: clamp(450px, 48vw, 500px);
-  padding: clamp(12px, 2vw, 18px);
+  height: clamp(300px, 28vw, 320px);
+  padding: clamp(8px, 1vw, 12px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -1756,12 +1866,8 @@
     grid-template-columns: 1fr;
   }
 
-  .visible-rows-grid {
-    grid-template-columns: 1fr;
-  }
-
   .chart-visualization {
-    height: 450px;
+    height: 360px;
     padding: 10px;
   }
 
